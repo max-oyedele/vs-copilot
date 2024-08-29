@@ -9,6 +9,8 @@ import { ChatAnthropic } from "@langchain/anthropic";
 const model = new ChatAnthropic({
   modelName: process.env.ANTHROPIC_MODEL,
   anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+  maxTokens: 1000,
+  temperature: 0,
 });
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
