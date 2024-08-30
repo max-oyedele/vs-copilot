@@ -9,6 +9,7 @@ import { instructions } from "./instructions";
 import { Module, Feature } from "./components";
 
 const HomePage = () => {
+  console.log("instructions=", instructions)
   return (
     <CopilotKit
       // publicApiKey={process.env.NEXT_PUBLIC_COPILOT_CLOUD_API_KEY}
