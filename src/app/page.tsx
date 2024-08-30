@@ -28,11 +28,7 @@ const HomePage = () => {
     >
       <div className="flex justify-center">
         <CopilotChat
-          // instructions={instructions}
-          instructions={
-            "Help the user manage a todo list. If the user provides a high level goal, " +
-            "break it down into a few specific tasks and add them to the list"
-          }
+          instructions={instructions}
           labels={{
             title: "Your Assistant",
             initial: "Hi! 👋 How can I assist you today?",
@@ -52,7 +48,13 @@ export interface Todo {
 }
 
 const Child = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([
+    { id: "123", text: "newone", isCompleted: true, assignedTo: "you" },
+  ]);
+
+  useCopilotChatSuggestions({
+    instructions: `The following todos are in the list: ${JSON.stringify(todos)}`,
+  }, [todos]);
 
   useCopilotReadable({
     description: "The user's todo list.",
@@ -114,7 +116,7 @@ const Child = () => {
 
   useCopilotAction({
     name: "deleteTodo",
-    description: "Delete a todo item",
+    description: "This is called when the user confirm delete todo item",
     parameters: [
       {
         name: "id",
@@ -123,7 +125,7 @@ const Child = () => {
       },
     ],
     handler: ({ id }) => {
-      console.log("delete todo log");
+      console.log("delete todo log", id);
       setTodos(todos.filter((todo) => todo.id !== id));
     },
     render: "Deleting a todo item...",

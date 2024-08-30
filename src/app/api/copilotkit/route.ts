@@ -4,10 +4,14 @@ import {
   copilotRuntimeNextJSAppRouterEndpoint,
   LangChainAdapter,
   OpenAIAdapter,
+  OpenAIAssistantAdapter,
 } from "@copilotkit/runtime";
 import OpenAI from "openai";
 import { ChatAnthropic } from "@langchain/anthropic";
-import { ChatOpenAI } from "@langchain/openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const model = new ChatAnthropic({
   modelName: process.env.ANTHROPIC_MODEL,
@@ -16,34 +20,20 @@ const model = new ChatAnthropic({
   temperature: 0,
 });
 
-// const model = new ChatOpenAI({
-//   openAIApiKey: process.env.OPENAI_API_KEY,
-//   modelName: process.env.OPENAI_MODEL,
-// });
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const POST = async (req: NextRequest, res: NextResponse) => {
-  const serviceAdapter = new LangChainAdapter({
+  const openaiServiceAdapter = new OpenAIAdapter({ openai });
+
+  const langchainServiceAdapter = new LangChainAdapter({
     chainFn: async ({ messages, tools }) => {
       messages = messages.filter((message) => message.content);
-      // console.log("filtered messages=", messages);
-      // return model.stream(messages);
-      return model.invoke(messages);
+      return model.stream(messages);
     },
   });
-  // const serviceAdapter = new LangChainAdapter({
-  //   chainFn: async ({ messages, tools }) => {
-  //     return model.stream(messages);
-  //   },
-  // });
-  // const serviceAdapter = new OpenAIAdapter({ openai });
 
   const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
     runtime: new CopilotRuntime(),
-    serviceAdapter,
+    serviceAdapter: openaiServiceAdapter,
+    // serviceAdapter: langchainServiceAdapter,
     endpoint: req.nextUrl.pathname,
   });
 
