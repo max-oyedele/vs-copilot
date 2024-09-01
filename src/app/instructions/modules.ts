@@ -9,7 +9,7 @@ Adding new modules, usually goes under "packages-modules" folder. For example to
     touch packages-modules/counter/servers/src/package.json 
 2. Copy following files from the existing modules,
 
-    From one of the existing moudles, copy the following files into the new module. Make sure the browser's module are copied from another existing browsers location and similarly for server's module.
+    From one of the existing modules, copy the following files into the new module. Make sure the browser's module are copied from another existing browsers location and similarly for server's module.
 
     - webpack.config.js
     - tsconfig.json
