@@ -13,6 +13,7 @@ import { errors } from "./errors";
 import { snippets } from "./snippets";
 import { comments } from "./comments";
 import { documents } from "./documents";
+import { lerna } from "./lerna";
 
 export const instructions =
   summaries +
@@ -29,4 +30,5 @@ export const instructions =
   errors +
   snippets +
   comments +
-  documents;
+  documents +
+  lerna;
