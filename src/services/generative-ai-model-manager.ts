@@ -11,12 +11,11 @@ export const setUpGenerativeAiModel = (
   quickFixCodeAction: vscode.Disposable
 ) => {
   try {
-    const apiKey = getConfigValue(key);
-    const apiModel = getConfigValue(model);
+    
     const webViewProvider = new webViewProviderClass(
       context.extensionUri,
-      apiKey,
-      apiModel,
+      key,
+      model,
       context
     );
 

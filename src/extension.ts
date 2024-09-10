@@ -1,11 +1,5 @@
 import * as vscode from "vscode";
-import {
-  APP_CONFIG,
-  COMMON,
-  generativeAiModel,
-  MAX_ACTIONS,
-  USER_MESSAGE,
-} from "./constant";
+import { APP_CONFIG, COMMON, MAX_ACTIONS, USER_MESSAGE } from "./constant";
 import { Comments } from "./events/comment";
 import { ExplainCode } from "./events/explain";
 import { FileUploader } from "./events/file-uploader";
@@ -19,20 +13,10 @@ import { OptimizeCode } from "./events/optimize";
 import { RefactorCode } from "./events/refactor";
 import { ReviewCode } from "./events/review";
 import { CodeActionsProvider } from "./providers/code-actions-provider";
-import { GeminiWebViewProvider } from "./providers/gemini-web-view-provider";
-import { GroqWebViewProvider } from "./providers/groq-web-view-provider";
 import { setUpGenerativeAiModel } from "./services/generative-ai-model-manager";
-import { getConfigValue } from "./utils";
 import { AnthropicWebViewProvider } from "./providers/anthropic-web-view-provider";
 
-const {
-  geminiKey,
-  geminiModel,
-  groqKey,
-  groqModel,
-  anthropicApiKey,
-  anthropicModel,
-} = APP_CONFIG;
+const { anthropicApiKey, anthropicModel } = APP_CONFIG;
 
 export async function activate(context: vscode.ExtensionContext) {
   try {
@@ -53,45 +37,45 @@ export async function activate(context: vscode.ExtensionContext) {
     } = MAX_ACTIONS;
     const getComment = new Comments(
       `${USER_MESSAGE} generates the code comments...`,
-      context,
+      context
     );
     const generateOptimizeCode = new OptimizeCode(
       `${USER_MESSAGE} optimizes the code...`,
-      context,
+      context
     );
     const generateRefactoredCode = new RefactorCode(
       `${USER_MESSAGE} refactors the code...`,
-      context,
+      context
     );
     const explainCode = new ExplainCode(
       `${USER_MESSAGE} explains the code...`,
-      context,
+      context
     );
     const generateReview = new ReviewCode(
       `${USER_MESSAGE} reviews the code...`,
-      context,
+      context
     );
     const codeChartGenerator = new CodeChartGenerator(
       `${USER_MESSAGE} creates the code chart...`,
-      context,
+      context
     );
     const codePattern = new FileUploader(context);
     const knowledgeBase = new ReadFromKnowledgeBase(
       `${USER_MESSAGE} generate your code pattern...`,
-      context,
+      context
     );
     const generateCommitMessage = new GenerateCommitMessage(
       `${USER_MESSAGE} generates a commit message...`,
-      context,
+      context
     );
     const generateInterviewQuestions = new InterviewMe(
       `${USER_MESSAGE} generates interview questions...`,
-      context,
+      context
     );
 
     const generateUnitTests = new GenerateUnitTest(
       `${USER_MESSAGE} generates unit tests...`,
-      context,
+      context
     );
 
     const actionMap = {
@@ -105,7 +89,7 @@ export async function activate(context: vscode.ExtensionContext) {
         new FixError(
           `${USER_MESSAGE} finds a solution to the error...`,
           context,
-          errorMessage,
+          errorMessage
         ).execute(errorMessage),
       [explain]: () => explainCode.execute(),
       [pattern]: () => codePattern.uploadFileHandler(),
@@ -115,16 +99,16 @@ export async function activate(context: vscode.ExtensionContext) {
     };
 
     const subscriptions: vscode.Disposable[] = Object.entries(actionMap).map(
-      ([action, handler]) => vscode.commands.registerCommand(action, handler),
+      ([action, handler]) => vscode.commands.registerCommand(action, handler)
     );
 
-    const selectedGenerativeAiModel = getConfigValue("generativeAi.option");
-    
+    const selectedGenerativeAiModel = "Anthropic";
+
     const quickFix = new CodeActionsProvider();
     const quickFixCodeAction: vscode.Disposable =
       vscode.languages.registerCodeActionsProvider(
         { scheme: "file", language: "*" },
-        quickFix,
+        quickFix
       );
 
     const modelConfigurations: {
@@ -136,21 +120,7 @@ export async function activate(context: vscode.ExtensionContext) {
         quickFixCodeAction: vscode.Disposable;
       };
     } = {
-      [generativeAiModel.GEMINI]: {
-        key: geminiKey,
-        model: geminiModel,
-        webviewProviderClass: GeminiWebViewProvider,
-        subscriptions,
-        quickFixCodeAction,
-      },
-      [generativeAiModel.GROQ]: {
-        key: groqKey,
-        model: groqModel,
-        webviewProviderClass: GroqWebViewProvider,
-        subscriptions,
-        quickFixCodeAction,
-      },
-      [generativeAiModel.ANTHROPIC]: {
+      ["Anthropic"]: {
         key: anthropicApiKey,
         model: anthropicModel,
         webviewProviderClass: AnthropicWebViewProvider,
@@ -167,13 +137,13 @@ export async function activate(context: vscode.ExtensionContext) {
         key,
         webviewProviderClass,
         subscriptions,
-        quickFixCodeAction,
+        quickFixCodeAction
       );
     }
   } catch (error) {
     context.workspaceState.update(COMMON.CHAT_HISTORY, []);
     vscode.window.showErrorMessage(
-      "An Error occured while setting up generative AI model",
+      "An Error occured while setting up generative AI model"
     );
     console.log(error);
   }
