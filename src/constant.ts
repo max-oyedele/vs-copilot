@@ -7,7 +7,6 @@ export enum MAX_ACTIONS {
   fix = "max.codeFix",
   explain = "max.explain",
   pattern = "max.savePattern",
-  knowledge = "max.readFromKnowledgeBase",
   commitMessage = "max.generateCommitMessage",
   interviewMe = "max.interviewMe",
   generateUnitTest = "max.generateUnitTest",

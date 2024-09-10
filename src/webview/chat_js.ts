@@ -4,7 +4,6 @@ const chatContainer = document.getElementById("chat-container");
 const chatMessages = document.getElementById("chat-messages");
 const chatInput = document.getElementById("chat-input");
 const chatSendButton = document.getElementById("chat-send");
-const KnowledgeBaseDropDown = document.getElementById("chat-options");
 const scrollButton = document.getElementById("scroll-button");
 
 const textArea = document.getElementById("chat-input-container");
@@ -115,16 +114,6 @@ window.addEventListener("message", (event) => {
 
   //call code higlighter function here
   hljs.highlightAll();
-});
-
-KnowledgeBaseDropDown.addEventListener("change", (event) => {
-  const selectedDoc = event.target.value;
-  if (selectedDoc) {
-    vscode.postMessage({
-      command: "knowledge-base",
-      doc: selectedDoc,
-    });
-  }
 });
 
 `;

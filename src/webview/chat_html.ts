@@ -31,13 +31,7 @@ ${chatCss}
 <body>
 <div id="chat-container">
     <div id="chat-title">ChatBuddy (Max)</div>
-    <div id="chat-messages"></div>
-    <div id="knowledge-base-title" title="Select a knowledge base document">KnowledgeBase</div>
-    <div id="knowledge-base">
-         <select id="chat-options">
-           ${docs.map((doc) => `<option value="${doc}">${path.basename(doc)}</option>`)}
-        </select>
-    </div>
+    <div id="chat-messages"></div>    
     <div id="chat-input-container">
         <input id="chat-input" type="text" placeholder="The text area is diabled. Type in vscode window or highlight code and right click" />
     </div>

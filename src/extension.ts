@@ -29,7 +29,6 @@ export async function activate(context: vscode.ExtensionContext) {
       fix,
       explain,
       pattern,
-      knowledge,
       commitMessage,
       interviewMe,
       generateUnitTest,
@@ -93,7 +92,7 @@ export async function activate(context: vscode.ExtensionContext) {
         ).execute(errorMessage),
       [explain]: () => explainCode.execute(),
       [pattern]: () => codePattern.uploadFileHandler(),
-      [knowledge]: () => knowledgeBase.execute(),
+      // [knowledge]: () => knowledgeBase.execute(),
       [commitMessage]: () => generateCommitMessage.execute("hello"),
       [generateCodeChart]: () => codeChartGenerator.execute(),
     };

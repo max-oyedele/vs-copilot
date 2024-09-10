@@ -73,11 +73,6 @@
           "group": "cdmbase-copilot"
         },
         {
-          "when": "editorHasSelection",
-          "command": "max.readFromKnowledgeBase",
-          "group": "cdmbase-copilot"
-        },
-        {
           "command": "max.generateCommitMessage",
           "group": "cdmbase-copilot"
         },
@@ -126,10 +121,6 @@
       {
         "command": "max.savePattern",
         "title": "CDMBase Copilot. Save this code pattern"
-      },
-      {
-        "command": "max.readFromKnowledgeBase",
-        "title": "CDMBase Copilot. Generate based on knowledgeBase"
       },
       {
         "command": "max.generateCommitMessage",

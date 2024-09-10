@@ -221,32 +221,6 @@ div.code {
     white-space: pre;
 }
 
-#knowledge-base-title {
-    position: relative;
-    margin-bottom: 5px;
-  }
-  
-  #knowledge-base-title::after {
-    content: "Upload your knowledge base or code pattern (txt)";
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
-    white-space: nowrap;
-  }
-  
-  #knowledge-base-title:hover::after {
-    opacity: 1;
-    visibility: visible;
-  }
 .scroll-button {
     position: absolute;
     bottom: 150px;
