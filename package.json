@@ -264,7 +264,7 @@
     "format": "prettier --write \"**/*.ts\""
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.27.2",
+    "@anthropic-ai/sdk": "0.21.1",
     "@copilotkit/react-core": "1.1.2",
     "@copilotkit/react-textarea": "1.1.2",
     "@copilotkit/react-ui": "1.1.2",

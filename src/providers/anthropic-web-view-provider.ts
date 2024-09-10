@@ -69,6 +69,7 @@ export class AnthropicWebViewProvider extends BaseWebViewProvider {
         chatHistory = chatHistory.slice(-2);
       }
       const chatCompletion = await anthropic.messages.create({
+        model: this.generativeAiModel,
         messages: [
           {
             role: "user",
@@ -76,7 +77,6 @@ export class AnthropicWebViewProvider extends BaseWebViewProvider {
           },
           ...chatHistory,
         ],
-        model: this.generativeAiModel,
         max_tokens,
         stream: false,
       });
