@@ -3,7 +3,7 @@ import {
   APP_CONFIG,
   COMMON,
   generativeAiModel,
-  OLA_ACTIONS,
+  MAX_ACTIONS,
   USER_MESSAGE,
 } from "./constant";
 import { Comments } from "./events/comment";
@@ -50,7 +50,7 @@ export async function activate(context: vscode.ExtensionContext) {
       interviewMe,
       generateUnitTest,
       generateCodeChart,
-    } = OLA_ACTIONS;
+    } = MAX_ACTIONS;
     const getComment = new Comments(
       `${USER_MESSAGE} generates the code comments...`,
       context,
@@ -119,7 +119,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
 
     const selectedGenerativeAiModel = getConfigValue("generativeAi.option");
-
+    
     const quickFix = new CodeActionsProvider();
     const quickFixCodeAction: vscode.Disposable =
       vscode.languages.registerCodeActionsProvider(

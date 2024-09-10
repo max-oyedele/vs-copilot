@@ -12,7 +12,7 @@ suite("Test the ChatProvider", async () => {
     const webview = {
       options: {
         enableScripts: true,
-        localResourceRoots: [vscode.Uri.file("../../../../codebuddy")],
+        localResourceRoots: [vscode.Uri.file("../../../../cdmbase-copilot")],
       },
       webview: {
         html: getWebviewContent([]),
@@ -47,12 +47,12 @@ suite("Test the ChatProvider", async () => {
             };
           },
         },
-      }) as any;
+      } as any);
     let extensionContext: vscode.ExtensionContext;
     extensionContext = createExtensionContextStub();
     const provider = new ChatViewProvider(
-      vscode.Uri.file("../../../../codebuddy"),
-      extensionContext,
+      vscode.Uri.file("../../../../cdmbase-copilot"),
+      extensionContext
     );
     provider.resolveWebviewView(webview as any);
     assert.strictEqual(typeof webview.webview.html, "string");
@@ -65,7 +65,7 @@ suite("Test the ChatProvider", async () => {
         const question = "Write K nearest neighbour function in typescript";
         const googleGenerativeAIStub = sinon.stub(
           GoogleGenerativeAI.prototype,
-          "getGenerativeModel",
+          "getGenerativeModel"
         ) as any;
         const startChartStub = sinon.stub();
         const sendMessageStub = sinon.stub();
@@ -94,7 +94,9 @@ suite("Test the ChatProvider", async () => {
         const webview = {
           options: {
             enableScripts: true,
-            localResourceRoots: [vscode.Uri.file("../../../../codebuddy")],
+            localResourceRoots: [
+              vscode.Uri.file("../../../../cdmbase-copilot"),
+            ],
           },
           webview: {
             html: getWebviewContent([]),
@@ -110,7 +112,7 @@ suite("Test the ChatProvider", async () => {
 
         const apiKeyStub = sinon.stub(
           vscode.workspace,
-          "getConfiguration",
+          "getConfiguration"
         ) as any;
         apiKeyStub.returns({
           get: sinon.stub().withArgs("google.gemini.apiKeys").returns("1234"),
@@ -132,12 +134,12 @@ suite("Test the ChatProvider", async () => {
                 ];
               },
             },
-          }) as any;
+          } as any);
         let extensionContext: vscode.ExtensionContext;
         extensionContext = createExtensionContextStub();
         const provider = new ChatViewProvider(
-          vscode.Uri.file("../../../../codebuddy"),
-          extensionContext,
+          vscode.Uri.file("../../../../cdmbase-copilot"),
+          extensionContext
         );
         const sendResponsePromise = new Promise<void>((resolve) => {
           const sendResponse = provider.sendResponse;
@@ -155,7 +157,7 @@ suite("Test the ChatProvider", async () => {
         assert.strictEqual(provider.chatHistory[0].role, "model");
         assert.strictEqual(
           provider.chatHistory[0].parts[0].text,
-          formatText("Hello World"),
+          formatText("Hello World")
         );
         sinon.restore();
       });

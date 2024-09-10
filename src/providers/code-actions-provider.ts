@@ -28,7 +28,7 @@ export class CodeActionsProvider implements vscode.CodeActionProvider {
       // Seems the text is too much `${errorMessage} \n ${windowContent}`
       // Write a javascript function that retrieve the errored code instead of passing the whole code
       action.command = {
-        command: "ola.codeFix",
+        command: "max.codeFix",
         title: "Ola fix this error",
         arguments: [`${errorMessage} \n ${windowContent}`],
       };

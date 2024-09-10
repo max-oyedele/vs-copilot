@@ -42,7 +42,7 @@ export class ChatManager {
   }
 
   registerChatCommand() {
-    return vscode.commands.registerCommand("ola.sendChatMessage", async () => {
+    return vscode.commands.registerCommand("max.sendChatMessage", async () => {
       try {
         vscode.window.showInformationMessage("☕️ Asking Ola for Help");
         const selectedText = this.getActiveEditorText();

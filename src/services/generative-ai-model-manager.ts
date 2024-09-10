@@ -8,7 +8,7 @@ export const setUpGenerativeAiModel = (
   key: string,
   webViewProviderClass: any,
   subscriptions: vscode.Disposable[],
-  quickFixCodeAction: vscode.Disposable,
+  quickFixCodeAction: vscode.Disposable
 ) => {
   try {
     const apiKey = getConfigValue(key);
@@ -17,27 +17,27 @@ export const setUpGenerativeAiModel = (
       context.extensionUri,
       apiKey,
       apiModel,
-      context,
+      context
     );
 
     const registerWebViewProvider: vscode.Disposable =
       vscode.window.registerWebviewViewProvider(
         webViewProviderClass.viewId,
-        webViewProvider,
+        webViewProvider
       );
 
     const chatManager = new ChatManager(context);
-    const chatWithCodeBuddy = chatManager.registerChatCommand();
+    const chatWithCDMBaseCopilot = chatManager.registerChatCommand();
 
     context.subscriptions.push(
       ...subscriptions,
       quickFixCodeAction,
       registerWebViewProvider,
-      chatWithCodeBuddy,
+      chatWithCDMBaseCopilot
     );
   } catch (error) {
     vscode.window.showErrorMessage(
-      "An Error occured while registering event subscriptions",
+      "An Error occured while registering event subscriptions"
     );
     console.log(error);
   }

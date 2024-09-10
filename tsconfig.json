@@ -1,30 +1,31 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    // "module": "ESNext",
+    "module": "CommonJS",
     "target": "ESNext",
     "outDir": "out",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "ESNext"],
     "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "src",
     "strict": true,
-    "allowJs": true,
-    "noEmit": true,
+    // "allowJs": true,
+    // "noEmit": true,
     "esModuleInterop": true,
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    // "moduleResolution": "Bundler",
+    // "resolveJsonModule": true,
+    // "isolatedModules": true,
+    // "jsx": "preserve",
+    // "incremental": true,
+    // "plugins": [
+    //   {
+    //     "name": "next"
+    //   }
+    // ],
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // }
   },
-  "include": ["next-env.d.ts", "**/*.tsx"],
+  // "include": ["next-env.d.ts", "**/*.tsx"],
   "exclude": ["node_modules", ".vscode-test"]
 }

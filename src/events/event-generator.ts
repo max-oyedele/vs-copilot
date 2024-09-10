@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Anthropic from "@anthropic-ai/sdk";
 import { GenerativeModel, GoogleGenerativeAI } from "@google/generative-ai";
 import Groq from "groq-sdk";

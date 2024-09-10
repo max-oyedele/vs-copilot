@@ -1,17 +1,17 @@
-export const USER_MESSAGE = " ☕️ Hold on while CodeBuddy ";
-export enum OLA_ACTIONS {
-  comment = "ola.commentCode",
-  review = "ola.reviewCode",
-  refactor = "ola.codeRefactor",
-  optimize = "ola.codeOptimize",
-  fix = "ola.codeFix",
-  explain = "ola.explain",
-  pattern = "ola.savePattern",
-  knowledge = "ola.readFromKnowledgeBase",
-  commitMessage = "ola.generateCommitMessage",
-  interviewMe = "ola.interviewMe",
-  generateUnitTest = "ola.generateUnitTest",
-  generateCodeChart = "ola.generateCodeChart",
+export const USER_MESSAGE = " ☕️ Hold on while CDMBase Copilot ";
+export enum MAX_ACTIONS {
+  comment = "max.commentCode",
+  review = "max.reviewCode",
+  refactor = "max.codeRefactor",
+  optimize = "max.codeOptimize",
+  fix = "max.codeFix",
+  explain = "max.explain",
+  pattern = "max.savePattern",
+  knowledge = "max.readFromKnowledgeBase",
+  commitMessage = "max.generateCommitMessage",
+  interviewMe = "max.interviewMe",
+  generateUnitTest = "max.generateUnitTest",
+  generateCodeChart = "max.generateCodeChart",
 }
 
 export enum COMMON {
@@ -34,8 +34,9 @@ export const APP_CONFIG = {
   groqKey: "groq.llama3.apiKey",
   groqModel: "groq.llama3.model",
   generativeAi: "generativeAi.option",
-  anthropicModel: "anthropic.model",
-  anthropicApiKey: "anthropic.apiKey",
+  // generativeAi: "Anthropic",
+  anthropicModel: "claude-3-5-sonnet-20240620",
+  anthropicApiKey: "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",
 };
 
 export enum generativeAiModel {
