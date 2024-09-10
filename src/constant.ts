@@ -20,16 +20,8 @@ export enum COMMON {
   BOT = "bot",
 }
 
-export const GROQ_CONFIG = {
-  temperature: 0.1,
-  max_tokens: 1024,
-  top_p: 1,
-  stream: false,
-  stop: null,
-};
-
 export const APP_CONFIG = {
-  anthropicModel: "claude-3-5-sonnet-20240620",
+  anthropicModel: "claude-3-sonnet-20240229",
   anthropicApiKey:
     "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",
 };

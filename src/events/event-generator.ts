@@ -111,26 +111,21 @@ export abstract class EventGenerator implements IEventGenerator {
     return inputString;
   }
 
-  async generateGeminiResponse(
-    model: any,
-    text: string
-  ): Promise<string | undefined> {
-    const result = await model.generateContent(text);
-    return result ? await result.response.text() : undefined;
-  }
-
   private async anthropicResponse(
     model: Anthropic,
     generativeAiModel: string,
     userPrompt: string
   ) {
     try {
-      const response = await model.messages.create({
-        model: generativeAiModel,
-        system: "",
-        max_tokens: 1024,
-        messages: [{ role: "user", content: userPrompt }],
-      });
+      const response = await model.messages.create(
+        {
+          model: generativeAiModel,
+          system: "",
+          max_tokens: 1024,
+          messages: [{ role: "user", content: userPrompt }],
+        },
+        { maxRetries: 10 }
+      );
       return response.content[0].text;
     } catch (error) {
       console.error("Error generating response:", error);

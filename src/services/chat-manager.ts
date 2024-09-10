@@ -26,7 +26,7 @@ export class ChatManager {
   registerChatCommand() {
     return vscode.commands.registerCommand("max.sendChatMessage", async () => {
       try {
-        vscode.window.showInformationMessage("☕️ Asking Ola for Help");
+        vscode.window.showInformationMessage("☕️ Asking Max for Help");
         const selectedText = this.getActiveEditorText();
         const response = await this.generateResponse(selectedText);
         this.sendResponse(selectedText, response);
@@ -37,10 +37,6 @@ export class ChatManager {
         );
       }
     });
-  }
-
-  private getGenerativeAiModel(): string | undefined {
-    return "Anthropic";
   }
 
   private getActiveEditorText(): string {
@@ -60,13 +56,13 @@ export class ChatManager {
           "Configuration not found. Go to settings, search for Your coding buddy. Fill up the model and model name"
         );
       }
-      const geminiWebViewProvider = new AnthropicWebViewProvider(
+      const anthropicWebViewProvider = new AnthropicWebViewProvider(
         this._context.extensionUri,
         this.anthropicApiKey,
         this.anthropicModel,
         this._context
       );
-      return await geminiWebViewProvider.generateResponse(message);
+      return await anthropicWebViewProvider.generateResponse(message);
     } catch (error) {
       this._context.workspaceState.update(COMMON.CHAT_HISTORY, []);
       console.log(error);

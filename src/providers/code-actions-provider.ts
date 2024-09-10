@@ -21,7 +21,7 @@ export class CodeActionsProvider implements vscode.CodeActionProvider {
         diagnostic.range,
       );
       const action = new vscode.CodeAction(
-        "Ola fix this error",
+        "Max fix this error",
         vscode.CodeActionKind.QuickFix,
       );
       const windowContent = document.getText();
@@ -29,7 +29,7 @@ export class CodeActionsProvider implements vscode.CodeActionProvider {
       // Write a javascript function that retrieve the errored code instead of passing the whole code
       action.command = {
         command: "max.codeFix",
-        title: "Ola fix this error",
+        title: "Max fix this error",
         arguments: [`${errorMessage} \n ${windowContent}`],
       };
       actions.push(action);

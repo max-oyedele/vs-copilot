@@ -30,7 +30,7 @@ ${chatCss}
 
 <body>
 <div id="chat-container">
-    <div id="chat-title">ChatBuddy (Ola)</div>
+    <div id="chat-title">ChatBuddy (Max)</div>
     <div id="chat-messages"></div>
     <div id="knowledge-base-title" title="Select a knowledge base document">KnowledgeBase</div>
     <div id="knowledge-base">
