@@ -13,8 +13,8 @@ interface IEventGenerator {
 export abstract class EventGenerator implements IEventGenerator {
   context: vscode.ExtensionContext;
   protected error?: string;
-  private readonly anthropicModel: string;
   private readonly anthropicApiKey: string;
+  private readonly anthropicModel: string;
   // Todo Need to refactor. Only one instance of a model can be created at a time. Therefore no need to retrieve all model information, only retrieve the required model within the application
   constructor(
     private readonly action: string,
@@ -23,9 +23,10 @@ export abstract class EventGenerator implements IEventGenerator {
   ) {
     this.context = _context;
     this.error = errorMessage;
-    const { anthropicModel, anthropicApiKey } = APP_CONFIG;
-    this.anthropicModel = getConfigValue(anthropicModel);
-    this.anthropicApiKey = getConfigValue(anthropicApiKey);
+
+    const { anthropicApiKey, anthropicModel } = APP_CONFIG;
+    this.anthropicApiKey = anthropicApiKey;
+    this.anthropicModel = anthropicModel;
   }
 
   getApplicationConfig(configKey: string): string | undefined {

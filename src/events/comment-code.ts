@@ -2,7 +2,7 @@ import { formatText } from "../utils";
 import { EventGenerator } from "./event-generator";
 import * as vscode from "vscode";
 
-export class Comments extends EventGenerator {
+export class CommentCode extends EventGenerator {
   selectedCode: string | undefined;
   constructor(action: string, context: vscode.ExtensionContext) {
     super(action, context);

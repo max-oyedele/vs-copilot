@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { formatText, getConfigValue, vscodeErrorMessage } from "../utils";
+import { formatText, vscodeErrorMessage } from "../utils";
 import { APP_CONFIG, COMMON } from "../constant";
 import { AnthropicWebViewProvider } from "../providers/anthropic-web-view-provider";
 
@@ -12,31 +12,27 @@ import { AnthropicWebViewProvider } from "../providers/anthropic-web-view-provid
 export class ChatManager {
   private readonly _context: vscode.ExtensionContext;
 
-  private readonly anthropicApiKey: string;
-  private readonly anthropicModel: string;
-
   constructor(context: vscode.ExtensionContext) {
-    const { anthropicApiKey, anthropicModel } = APP_CONFIG;
     this._context = context;
-
-    this.anthropicApiKey = getConfigValue(anthropicApiKey);
-    this.anthropicModel = getConfigValue(anthropicModel);
   }
 
   registerChatCommand() {
-    return vscode.commands.registerCommand("max.sendChatMessage", async () => {
-      try {
-        vscode.window.showInformationMessage("☕️ Asking Max for Help");
-        const selectedText = this.getActiveEditorText();
-        const response = await this.generateResponse(selectedText);
-        this.sendResponse(selectedText, response);
-      } catch (error) {
-        console.error(error);
-        vscodeErrorMessage(
-          "Failed to generate content. Please try again later."
-        );
+    return vscode.commands.registerCommand(
+      "cdmbase-copilot.sendChatMessage",
+      async () => {
+        try {
+          vscode.window.showInformationMessage("☕️ Asking Max for Help");
+          const selectedText = this.getActiveEditorText();
+          const response = await this.generateResponse(selectedText);
+          this.sendResponse(selectedText, response);
+        } catch (error) {
+          console.error(error);
+          vscodeErrorMessage(
+            "Failed to generate content. Please try again later."
+          );
+        }
       }
-    });
+    );
   }
 
   private getActiveEditorText(): string {
@@ -51,15 +47,14 @@ export class ChatManager {
 
   private async generateResponse(message: string): Promise<string | undefined> {
     try {
-      if (!this.anthropicApiKey || !this.anthropicModel) {
+      const { anthropicApiKey, anthropicModel } = APP_CONFIG;
+      if (!anthropicApiKey || !anthropicModel) {
         vscodeErrorMessage(
           "Configuration not found. Go to settings, search for Your coding buddy. Fill up the model and model name"
         );
       }
       const anthropicWebViewProvider = new AnthropicWebViewProvider(
         this._context.extensionUri,
-        this.anthropicApiKey,
-        this.anthropicModel,
         this._context
       );
       return await anthropicWebViewProvider.generateResponse(message);
@@ -73,8 +68,6 @@ export class ChatManager {
     try {
       const anthropicWebViewProvider = new AnthropicWebViewProvider(
         this._context.extensionUri,
-        this.anthropicApiKey,
-        this.anthropicModel,
         this._context
       );
       anthropicWebViewProvider.sendResponse(

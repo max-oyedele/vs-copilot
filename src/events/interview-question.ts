@@ -2,7 +2,7 @@ import { formatText } from "../utils";
 import { EventGenerator } from "./event-generator";
 import * as vscode from "vscode";
 
-export class InterviewMe extends EventGenerator {
+export class InterviewQuestion extends EventGenerator {
   constructor(action: string, context: vscode.ExtensionContext) {
     super(action, context);
   }

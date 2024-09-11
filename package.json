@@ -40,102 +40,102 @@
       "editor/context": [
         {
           "when": "editorHasSelection",
-          "command": "max.commentCode",
+          "command": "cdmbase-copilot.commentCode",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.reviewCode",
+          "command": "cdmbase-copilot.reviewCode",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.codeRefactor",
+          "command": "cdmbase-copilot.codeRefactor",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.codeOptimize",
+          "command": "cdmbase-copilot.codeOptimize",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.explain",
+          "command": "cdmbase-copilot.explain",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.sendChatMessage",
+          "command": "cdmbase-copilot.sendChatMessage",
           "group": "cdmbase-copilot"
         },
         {
-          "command": "max.savePattern",
+          "command": "cdmbase-copilot.savePattern",
           "group": "cdmbase-copilot"
         },
         {
-          "command": "max.generateCommitMessage",
-          "group": "cdmbase-copilot"
-        },
-        {
-          "when": "editorHasSelection",
-          "command": "max.interviewMe",
+          "command": "cdmbase-copilot.generateCommitMessage",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.generateUnitTest",
+          "command": "cdmbase-copilot.interviewMe",
           "group": "cdmbase-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "max.generateCodeChart",
+          "command": "cdmbase-copilot.generateUnitTest",
+          "group": "cdmbase-copilot"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "cdmbase-copilot.generateCodeChart",
           "group": "cdmbase-copilot"
         }
       ]
     },
     "commands": [
       {
-        "command": "max.commentCode",
+        "command": "cdmbase-copilot.commentCode",
         "title": "CDMBase Copilot. Add comment to selected code."
       },
       {
-        "command": "max.reviewCode",
+        "command": "cdmbase-copilot.reviewCode",
         "title": "CDMBase Copilot. Review these selected code."
       },
       {
-        "command": "max.codeRefactor",
+        "command": "cdmbase-copilot.codeRefactor",
         "title": "CDMBase Copilot. Refactor these selected code."
       },
       {
-        "command": "max.codeOptimize",
+        "command": "cdmbase-copilot.codeOptimize",
         "title": "CDMBase Copilot. Optimize these selected code."
       },
       {
-        "command": "max.sendChatMessage",
+        "command": "cdmbase-copilot.sendChatMessage",
         "title": "Send to CDMBase Copilot"
       },
       {
-        "command": "max.explain",
+        "command": "cdmbase-copilot.explain",
         "title": "CDMBase Copilot. Explain this code"
       },
       {
-        "command": "max.savePattern",
+        "command": "cdmbase-copilot.savePattern",
         "title": "CDMBase Copilot. Save this code pattern"
       },
       {
-        "command": "max.generateCommitMessage",
+        "command": "cdmbase-copilot.generateCommitMessage",
         "title": "CDMBase Copilot. Generate commit message"
       },
       {
-        "command": "max.interviewMe",
+        "command": "cdmbase-copilot.interviewMe",
         "title": "CDMBase Copilot. Interview Me."
       },
       {
-        "command": "max.generateUnitTest",
+        "command": "cdmbase-copilot.generateUnitTest",
         "title": "CDMBase Copilot. Generate Unit Test."
       },
       {
-        "command": "max.generateCodeChart",
+        "command": "cdmbase-copilot.generateCodeChart",
         "title": "CDMBase Copilot. Generate Code Chart."
       }
     ],

@@ -1,16 +1,17 @@
 export const USER_MESSAGE = " ☕️ Hold on while CDMBase Copilot ";
-export enum MAX_ACTIONS {
-  comment = "max.commentCode",
-  review = "max.reviewCode",
-  refactor = "max.codeRefactor",
-  optimize = "max.codeOptimize",
-  fix = "max.codeFix",
-  explain = "max.explain",
-  pattern = "max.savePattern",
-  commitMessage = "max.generateCommitMessage",
-  interviewMe = "max.interviewMe",
-  generateUnitTest = "max.generateUnitTest",
-  generateCodeChart = "max.generateCodeChart",
+
+export enum MAIN_ACTIONS {
+  codeChart = "cdmbase-copilot.generateCodeChart",
+  comment = "cdmbase-copilot.commentCode",
+  commitMessage = "cdmbase-copilot.generateCommitMessage",
+  explain = "cdmbase-copilot.explain",
+  fix = "cdmbase-copilot.codeFix",
+  interviewMe = "cdmbase-copilot.interviewMe",
+  optimize = "cdmbase-copilot.codeOptimize",
+  pattern = "cdmbase-copilot.savePattern",
+  refactor = "cdmbase-copilot.codeRefactor",
+  review = "cdmbase-copilot.reviewCode",
+  unitTest = "cdmbase-copilot.generateUnitTest",
 }
 
 export enum COMMON {

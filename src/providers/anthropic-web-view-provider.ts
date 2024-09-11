@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { BaseWebViewProvider } from "./base-web-view-provider";
-import { COMMON } from "../constant";
+import { APP_CONFIG, COMMON } from "../constant";
 import Anthropic from "@anthropic-ai/sdk";
 
 type Role = "user" | "assistant";
@@ -11,13 +11,9 @@ export interface IHistory {
 
 export class AnthropicWebViewProvider extends BaseWebViewProvider {
   chatHistory: IHistory[] = [];
-  constructor(
-    extensionUri: vscode.Uri,
-    apiKey: string,
-    generativeAiModel: string,
-    context: vscode.ExtensionContext
-  ) {
-    super(extensionUri, apiKey, generativeAiModel, context);
+  constructor(extensionUri: vscode.Uri, context: vscode.ExtensionContext) {
+    const { anthropicApiKey, anthropicModel } = APP_CONFIG;
+    super(extensionUri, anthropicApiKey, anthropicModel, context);
   }
 
   public async sendResponse(

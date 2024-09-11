@@ -2,7 +2,7 @@ import { formatText } from "../utils";
 import * as vscode from "vscode";
 import { EventGenerator } from "./event-generator";
 
-export class CodeChartGenerator extends EventGenerator {
+export class GenerateCodeChart extends EventGenerator {
   constructor(action: string, context: vscode.ExtensionContext) {
     super(action, context);
   }

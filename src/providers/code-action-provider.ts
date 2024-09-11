@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
 
-export class CodeActionsProvider implements vscode.CodeActionProvider {
+export class CodeActionProvider implements vscode.CodeActionProvider {
   provideCodeActions(
     document: vscode.TextDocument,
     range: vscode.Range,
     context: vscode.CodeActionContext,
-    token: vscode.CancellationToken,
+    token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
     return this.quickFix(context, document);
   }
@@ -18,17 +18,17 @@ export class CodeActionsProvider implements vscode.CodeActionProvider {
       // This returns the whole line where the error occured
       const erroredLineOfCode = this.getErroredFunction(
         document,
-        diagnostic.range,
+        diagnostic.range
       );
       const action = new vscode.CodeAction(
         "Max fix this error",
-        vscode.CodeActionKind.QuickFix,
+        vscode.CodeActionKind.QuickFix
       );
       const windowContent = document.getText();
       // Seems the text is too much `${errorMessage} \n ${windowContent}`
       // Write a javascript function that retrieve the errored code instead of passing the whole code
       action.command = {
-        command: "max.codeFix",
+        command: "cdmbase-copilot.codeFix",
         title: "Max fix this error",
         arguments: [`${errorMessage} \n ${windowContent}`],
       };
@@ -39,13 +39,13 @@ export class CodeActionsProvider implements vscode.CodeActionProvider {
 
   private getErroredFunction(
     document: vscode.TextDocument,
-    range: vscode.Range,
+    range: vscode.Range
   ): string {
     const startLine = range.start.line;
     const endLine = range.end.line;
     const erroredFunctionRange: vscode.Range = new vscode.Range(
       new vscode.Position(startLine, 0),
-      new vscode.Position(endLine + 1, 0),
+      new vscode.Position(endLine + 1, 0)
     );
     return document.getText(erroredFunctionRange);
   }

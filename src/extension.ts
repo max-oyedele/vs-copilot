@@ -1,144 +1,98 @@
 import * as vscode from "vscode";
-import { APP_CONFIG, COMMON, MAX_ACTIONS, USER_MESSAGE } from "./constant";
-import { Comments } from "./events/comment";
-import { ExplainCode } from "./events/explain";
-import { FileUploader } from "./events/file-uploader";
-import { FixError } from "./events/fixError";
-import { CodeChartGenerator } from "./events/generate-code-chart";
+import { APP_CONFIG, COMMON, MAIN_ACTIONS, USER_MESSAGE } from "./constant";
+import { CommentCode } from "./events/comment-code";
 import { GenerateCommitMessage } from "./events/generate-commit-message";
+import { ExplainCode } from "./events/explain-code";
+import { FixError } from "./events/fixError";
+import { GenerateCodeChart } from "./events/generate-code-chart";
 import { GenerateUnitTest } from "./events/generate-unit-test";
-import { InterviewMe } from "./events/interview-me";
-import { ReadFromKnowledgeBase } from "./events/knowledge-base";
+import { InterviewQuestion } from "./events/interview-question";
 import { OptimizeCode } from "./events/optimize";
+import { FileUploader } from "./events/file-uploader";
 import { RefactorCode } from "./events/refactor";
 import { ReviewCode } from "./events/review";
-import { CodeActionsProvider } from "./providers/code-actions-provider";
-import { setUpGenerativeAiModel } from "./services/generative-ai-model-manager";
-import { AnthropicWebViewProvider } from "./providers/anthropic-web-view-provider";
+import { setupSubscribe } from "./services/setup-subscribe";
 
 const { anthropicApiKey, anthropicModel } = APP_CONFIG;
 
 export async function activate(context: vscode.ExtensionContext) {
   try {
     context.workspaceState.update(COMMON.CHAT_HISTORY, []);
+
     const {
+      codeChart,
       comment,
-      review,
-      refactor,
-      optimize,
-      fix,
-      explain,
-      pattern,
       commitMessage,
+      explain,
+      fix,
       interviewMe,
-      generateUnitTest,
-      generateCodeChart,
-    } = MAX_ACTIONS;
-    const getComment = new Comments(
-      `${USER_MESSAGE} generates the code comments...`,
-      context
-    );
-    const generateOptimizeCode = new OptimizeCode(
-      `${USER_MESSAGE} optimizes the code...`,
-      context
-    );
-    const generateRefactoredCode = new RefactorCode(
-      `${USER_MESSAGE} refactors the code...`,
-      context
-    );
-    const explainCode = new ExplainCode(
-      `${USER_MESSAGE} explains the code...`,
-      context
-    );
-    const generateReview = new ReviewCode(
-      `${USER_MESSAGE} reviews the code...`,
-      context
-    );
-    const codeChartGenerator = new CodeChartGenerator(
+      optimize,
+      pattern,
+      refactor,
+      review,
+      unitTest,
+    } = MAIN_ACTIONS;
+
+    const generateCodeChart = new GenerateCodeChart(
       `${USER_MESSAGE} creates the code chart...`,
       context
     );
-    const codePattern = new FileUploader(context);
-    const knowledgeBase = new ReadFromKnowledgeBase(
-      `${USER_MESSAGE} generate your code pattern...`,
+    const commentCode = new CommentCode(
+      `${USER_MESSAGE} generates the code comments...`,
       context
     );
     const generateCommitMessage = new GenerateCommitMessage(
       `${USER_MESSAGE} generates a commit message...`,
       context
     );
-    const generateInterviewQuestions = new InterviewMe(
+    const explainCode = new ExplainCode(
+      `${USER_MESSAGE} explains the code...`,
+      context
+    );
+    const fixError = (errorMessage: string) =>
+      new FixError(
+        `${USER_MESSAGE} finds a solution to the error...`,
+        context,
+        errorMessage
+      );
+    const interviewQuestion = new InterviewQuestion(
       `${USER_MESSAGE} generates interview questions...`,
       context
     );
-
-    const generateUnitTests = new GenerateUnitTest(
+    const optimizeCode = new OptimizeCode(
+      `${USER_MESSAGE} optimizes the code...`,
+      context
+    );
+    const codePattern = new FileUploader(context);
+    const refactorCode = new RefactorCode(
+      `${USER_MESSAGE} refactors the code...`,
+      context
+    );
+    const reviewCode = new ReviewCode(
+      `${USER_MESSAGE} reviews the code...`,
+      context
+    );
+    const generateUnitTest = new GenerateUnitTest(
       `${USER_MESSAGE} generates unit tests...`,
       context
     );
 
     const actionMap = {
-      [comment]: () => getComment.execute(),
-      [review]: () => generateReview.execute(),
-      [refactor]: () => generateRefactoredCode.execute(),
-      [optimize]: () => generateOptimizeCode.execute(),
-      [interviewMe]: () => generateInterviewQuestions.execute(),
-      [generateUnitTest]: () => generateUnitTests.execute(),
-      [fix]: (errorMessage: string) =>
-        new FixError(
-          `${USER_MESSAGE} finds a solution to the error...`,
-          context,
-          errorMessage
-        ).execute(errorMessage),
-      [explain]: () => explainCode.execute(),
-      [pattern]: () => codePattern.uploadFileHandler(),
-      // [knowledge]: () => knowledgeBase.execute(),
+      [codeChart]: () => generateCodeChart.execute(),
+      [comment]: () => commentCode.execute(),
       [commitMessage]: () => generateCommitMessage.execute("hello"),
-      [generateCodeChart]: () => codeChartGenerator.execute(),
+      [explain]: () => explainCode.execute(),
+      [fix]: (errorMessage: string) =>
+        fixError(errorMessage).execute(errorMessage),
+      [interviewMe]: () => interviewQuestion.execute(),
+      [optimize]: () => optimizeCode.execute(),
+      [pattern]: () => codePattern.uploadFileHandler(),
+      [refactor]: () => refactorCode.execute(),
+      [review]: () => reviewCode.execute(),
+      [unitTest]: () => generateUnitTest.execute(),
     };
 
-    const subscriptions: vscode.Disposable[] = Object.entries(actionMap).map(
-      ([action, handler]) => vscode.commands.registerCommand(action, handler)
-    );
-
-    const selectedGenerativeAiModel = "Anthropic";
-
-    const quickFix = new CodeActionsProvider();
-    const quickFixCodeAction: vscode.Disposable =
-      vscode.languages.registerCodeActionsProvider(
-        { scheme: "file", language: "*" },
-        quickFix
-      );
-
-    const modelConfigurations: {
-      [key: string]: {
-        key: string;
-        model: string;
-        webviewProviderClass: any;
-        subscriptions: vscode.Disposable[];
-        quickFixCodeAction: vscode.Disposable;
-      };
-    } = {
-      ["Anthropic"]: {
-        key: anthropicApiKey,
-        model: anthropicModel,
-        webviewProviderClass: AnthropicWebViewProvider,
-        subscriptions,
-        quickFixCodeAction,
-      },
-    };
-    if (selectedGenerativeAiModel in modelConfigurations) {
-      const modelConfig = modelConfigurations[selectedGenerativeAiModel];
-      const { key, model, webviewProviderClass } = modelConfig;
-      setUpGenerativeAiModel(
-        context,
-        model,
-        key,
-        webviewProviderClass,
-        subscriptions,
-        quickFixCodeAction
-      );
-    }
+    setupSubscribe(context, actionMap);
   } catch (error) {
     context.workspaceState.update(COMMON.CHAT_HISTORY, []);
     vscode.window.showErrorMessage(
