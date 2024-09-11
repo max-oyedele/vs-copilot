@@ -190,7 +190,7 @@ export abstract class EventGenerator implements IEventGenerator {
       return;
     }
 
-    await AnthropicWebViewProvider.webView?.webview.postMessage({
+    await AnthropicWebViewProvider.webviewView?.webview.postMessage({
       type: "user-input",
       message: formattedResponse,
     });

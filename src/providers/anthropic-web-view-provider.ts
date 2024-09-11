@@ -16,41 +16,6 @@ export class AnthropicWebViewProvider extends BaseWebViewProvider {
     super(extensionUri, anthropicApiKey, anthropicModel, context);
   }
 
-  public async sendResponse(
-    response: string,
-    currentChat: string
-  ): Promise<boolean | undefined> {
-    try {
-      const type = currentChat === "bot" ? "bot-response" : "user-input";
-      if (currentChat === "bot") {
-        this.chatHistory.unshift({
-          role: "assistant",
-          content: response,
-        });
-      } else {
-        this.chatHistory.push({
-          role: "user",
-          content: response,
-        });
-      }
-      if (this.chatHistory.length === 2) {
-        const history: IHistory[] | undefined =
-          this._context.workspaceState.get(COMMON.CHAT_HISTORY, []);
-        this._context.workspaceState.update(COMMON.CHAT_HISTORY, [
-          ...history,
-          ...this.chatHistory,
-        ]);
-      }
-
-      return await this.currentWebView?.webview.postMessage({
-        type,
-        message: response,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   async generateResponse(message: string): Promise<string | undefined> {
     try {
       const anthropic = new Anthropic({
@@ -87,6 +52,41 @@ export class AnthropicWebViewProvider extends BaseWebViewProvider {
         "Model not responding, please resend your question"
       );
       return;
+    }
+  }
+
+  public async sendResponse(
+    response: string,
+    currentChat: string
+  ): Promise<boolean | undefined> {
+    try {
+      const type = currentChat === "bot" ? "bot-response" : "user-input";
+      if (currentChat === "bot") {
+        this.chatHistory.unshift({
+          role: "assistant",
+          content: response,
+        });
+      } else {
+        this.chatHistory.push({
+          role: "user",
+          content: response,
+        });
+      }
+      if (this.chatHistory.length === 2) {
+        const history: IHistory[] | undefined =
+          this._context.workspaceState.get(COMMON.CHAT_HISTORY, []);
+        this._context.workspaceState.update(COMMON.CHAT_HISTORY, [
+          ...history,
+          ...this.chatHistory,
+        ]);
+      }
+
+      return await this.currentWebView?.webview.postMessage({
+        type,
+        message: response,
+      });
+    } catch (error) {
+      console.error(error);
     }
   }
 }

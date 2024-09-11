@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { APP_CONFIG, COMMON, MAIN_ACTIONS, USER_MESSAGE } from "./constant";
+import { COMMON, MAIN_ACTIONS, USER_MESSAGE } from "./constant";
 import { CommentCode } from "./events/comment-code";
 import { GenerateCommitMessage } from "./events/generate-commit-message";
 import { ExplainCode } from "./events/explain-code";
@@ -12,8 +12,6 @@ import { FileUploader } from "./events/file-uploader";
 import { RefactorCode } from "./events/refactor";
 import { ReviewCode } from "./events/review";
 import { setupSubscribe } from "./services/setup-subscribe";
-
-const { anthropicApiKey, anthropicModel } = APP_CONFIG;
 
 export async function activate(context: vscode.ExtensionContext) {
   try {

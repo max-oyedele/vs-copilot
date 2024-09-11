@@ -20,16 +20,41 @@ export class ChatManager {
     return vscode.commands.registerCommand(
       "cdmbase-copilot.sendChatMessage",
       async () => {
+        const { anthropicApiKey, anthropicModel } = APP_CONFIG;
+        if (!anthropicApiKey || !anthropicModel) {
+          vscodeErrorMessage(
+            "Configuration not found. Go to settings, search for Your coding buddy. Fill up the model and model name"
+          );
+          return;
+        }
+
+        vscode.window.showInformationMessage("☕️ Asking Max for Help");
+
         try {
-          vscode.window.showInformationMessage("☕️ Asking Max for Help");
           const selectedText = this.getActiveEditorText();
-          const response = await this.generateResponse(selectedText);
-          this.sendResponse(selectedText, response);
+
+          const anthropicWebViewProvider = new AnthropicWebViewProvider(
+            this._context.extensionUri,
+            this._context
+          );
+          const response = await anthropicWebViewProvider.generateResponse(
+            selectedText
+          );
+
+          anthropicWebViewProvider.sendResponse(
+            formatText(selectedText),
+            COMMON.USER_INPUT
+          );
+          anthropicWebViewProvider.sendResponse(
+            formatText(response),
+            COMMON.BOT
+          );
         } catch (error) {
-          console.error(error);
           vscodeErrorMessage(
             "Failed to generate content. Please try again later."
           );
+          console.error(error);
+          this._context.workspaceState.update(COMMON.CHAT_HISTORY, []);
         }
       }
     );
@@ -43,41 +68,5 @@ export class ChatManager {
       throw new Error("No active editor");
     }
     return activeEditor.document.getText(activeEditor.selection);
-  }
-
-  private async generateResponse(message: string): Promise<string | undefined> {
-    try {
-      const { anthropicApiKey, anthropicModel } = APP_CONFIG;
-      if (!anthropicApiKey || !anthropicModel) {
-        vscodeErrorMessage(
-          "Configuration not found. Go to settings, search for Your coding buddy. Fill up the model and model name"
-        );
-      }
-      const anthropicWebViewProvider = new AnthropicWebViewProvider(
-        this._context.extensionUri,
-        this._context
-      );
-      return await anthropicWebViewProvider.generateResponse(message);
-    } catch (error) {
-      this._context.workspaceState.update(COMMON.CHAT_HISTORY, []);
-      console.log(error);
-    }
-  }
-
-  private sendResponse(userInput: string, response: string | undefined) {
-    try {
-      const anthropicWebViewProvider = new AnthropicWebViewProvider(
-        this._context.extensionUri,
-        this._context
-      );
-      anthropicWebViewProvider.sendResponse(
-        formatText(userInput),
-        COMMON.USER_INPUT
-      );
-      anthropicWebViewProvider.sendResponse(formatText(response), COMMON.BOT);
-    } catch (error) {
-      this._context.workspaceState.update(COMMON.CHAT_HISTORY, []);
-      console.error(error);
-    }
   }
 }

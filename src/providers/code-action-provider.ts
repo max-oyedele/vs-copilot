@@ -7,10 +7,6 @@ export class CodeActionProvider implements vscode.CodeActionProvider {
     context: vscode.CodeActionContext,
     token: vscode.CancellationToken
   ): vscode.ProviderResult<(vscode.Command | vscode.CodeAction)[]> {
-    return this.quickFix(context, document);
-  }
-
-  quickFix(context: vscode.CodeActionContext, document: vscode.TextDocument) {
     const actions: vscode.CodeAction[] = [];
     if (context.diagnostics.length > 0) {
       const diagnostic = context.diagnostics[0];

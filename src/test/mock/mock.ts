@@ -1,4 +1,4 @@
-import { IHistory } from "../../providers/chat-web-view-provider";
+import { IHistory } from "../../providers/anthropic-web-view-provider";
 
 export class MockGoogleGenerativeAi {
   constructor(apiKey: string) {}
@@ -12,7 +12,7 @@ export class MockGoogleGenerativeAi {
               response: {
                 text: () =>
                   Promise.resolve(
-                    "Here is how to write the K nearest neighbour function in typescript",
+                    "Here is how to write the K nearest neighbour function in typescript"
                   ),
               },
             };
