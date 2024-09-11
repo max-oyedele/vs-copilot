@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { EventGenerator } from "./event-generator";
+import { EventGenerator } from "../base/event-generator";
 import { formatText } from "../utils";
 
 export class ExplainCode extends EventGenerator {

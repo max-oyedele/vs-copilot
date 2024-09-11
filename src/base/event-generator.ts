@@ -1,11 +1,10 @@
 import * as vscode from "vscode";
 import Anthropic from "@anthropic-ai/sdk";
 import { APP_CONFIG, COMMON } from "../constant";
-import { AnthropicWebViewProvider } from "../providers/anthropic-web-view-provider";
-import { getConfigValue, vscodeErrorMessage } from "../utils";
+import { AnthropicWebView } from "../providers/anthropic-web-view";
+import { formatText } from "../utils";
 
 interface IEventGenerator {
-  getApplicationConfig(configKey: string): string | undefined;
   showInformationMessage(): Thenable<string | undefined>;
   getSelectedWindowArea(): string | undefined;
 }
@@ -29,27 +28,7 @@ export abstract class EventGenerator implements IEventGenerator {
     this.anthropicModel = anthropicModel;
   }
 
-  getApplicationConfig(configKey: string): string | undefined {
-    return getConfigValue(configKey);
-  }
-
-  protected createModel(): { model: any; modelName: string } | undefined {
-    try {
-      let model;
-      let modelName = "";
-
-      const apiKey: string = this.anthropicApiKey;
-      modelName = this.anthropicModel;
-      model = this.createAnthropicModel(apiKey);
-
-      return { model, modelName };
-    } catch (error) {
-      console.error("Error creating model:", error);
-      vscode.window.showErrorMessage(
-        "An error occurred while creating the model. Please try again."
-      );
-    }
-  }
+  abstract createPrompt(text?: string): any;
 
   showInformationMessage(): Thenable<string | undefined> {
     return vscode.window.showInformationMessage(this.action);
@@ -61,48 +40,10 @@ export abstract class EventGenerator implements IEventGenerator {
       vscode.window.showInformationMessage("No active text editor.");
       return;
     }
-    const selection: vscode.Selection | undefined = editor.selection;
-    const selectedArea: string | undefined = editor.document.getText(selection);
+    const selectedArea: string | undefined = editor.document.getText(
+      editor.selection
+    );
     return selectedArea;
-  }
-
-  private createAnthropicModel(apiKey: string): Anthropic {
-    return new Anthropic({
-      apiKey,
-    });
-  }
-
-  protected async generateModelResponse(
-    text: string
-  ): Promise<string | Anthropic.Messages.Message | undefined> {
-    try {
-      const activeModel = this.createModel();
-      if (!activeModel) {
-        throw new Error("Model not found. Check your settings.");
-      }
-
-      const { model, modelName } = activeModel;
-
-      let response;
-      if (modelName) {
-        response = await this.anthropicResponse(model, modelName, text);
-      }
-
-      if (!response) {
-        throw new Error(
-          "Could not generate response. Check your settings, ensure the API keys and Model Name is added properly."
-        );
-      }
-      if (this.action.includes("chart")) {
-        response = this.cleanGraphString(response as string);
-      }
-      return response;
-    } catch (error) {
-      console.error("Error generating response:", error);
-      vscode.window.showErrorMessage(
-        "An error occurred while generating the response. Please try again."
-      );
-    }
   }
 
   cleanGraphString(inputString: string) {
@@ -112,46 +53,21 @@ export abstract class EventGenerator implements IEventGenerator {
     return inputString;
   }
 
-  private async anthropicResponse(
-    model: Anthropic,
-    generativeAiModel: string,
-    userPrompt: string
-  ) {
-    try {
-      const response = await model.messages.create(
-        {
-          model: generativeAiModel,
-          system: "",
-          max_tokens: 1024,
-          messages: [{ role: "user", content: userPrompt }],
-        },
-        { maxRetries: 10 }
-      );
-      return response.content[0].text;
-    } catch (error) {
-      console.error("Error generating response:", error);
-      vscode.window.showErrorMessage(
-        "An error occurred while generating the response. Please try again."
-      );
-      return;
-    }
+  formatResponse(comment: string): string {
+    return formatText(comment);
   }
-
-  abstract formatResponse(comment: string): string;
-
-  abstract createPrompt(text?: string): any;
 
   async generateResponse(
     errorMessage?: string
   ): Promise<string | Anthropic.Messages.Message | undefined> {
     this.showInformationMessage();
-    let prompt;
     const selectedCode = this.getSelectedWindowArea();
     if (!errorMessage && !selectedCode) {
       vscode.window.showErrorMessage("select a piece of code.");
       return;
     }
 
+    let prompt;
     errorMessage
       ? (prompt = await this.createPrompt(errorMessage))
       : (prompt = await this.createPrompt(selectedCode));
@@ -163,7 +79,7 @@ export abstract class EventGenerator implements IEventGenerator {
 
     const response = await this.generateModelResponse(prompt);
     //TODO check the format of the history and ensure it conforms with the current model, else delete the history
-    if (prompt && response) {
+    if (response) {
       this.context.workspaceState.update(COMMON.CHAT_HISTORY, [
         {
           role: "user",
@@ -178,6 +94,45 @@ export abstract class EventGenerator implements IEventGenerator {
     return response;
   }
 
+  protected async generateModelResponse(
+    text: string
+  ): Promise<string | Anthropic.Messages.Message | undefined> {
+    try {
+      const model = new Anthropic({
+        apiKey: this.anthropicApiKey,
+      });
+
+      let response;
+      response = await model.messages.create(
+        {
+          model: this.anthropicModel,
+          system: "",
+          max_tokens: 1024,
+          messages: [{ role: "user", content: text }],
+        },
+        { maxRetries: 10 }
+      );
+      response = response.content[0].text;
+
+      if (!response) {
+        throw new Error(
+          "Could not generate response. Check your settings, ensure the API keys and Model Name is added properly."
+        );
+      }
+
+      if (this.action.includes("chart")) {
+        response = this.cleanGraphString(response as string);
+      }
+
+      return response;
+    } catch (error) {
+      console.error("Error generating response:", error);
+      vscode.window.showErrorMessage(
+        "An error occurred while generating the response. Please try again."
+      );
+    }
+  }
+
   async execute(errorMessage?: string): Promise<void> {
     const response = (await this.generateResponse(errorMessage)) as string;
     if (!response) {
@@ -190,7 +145,7 @@ export abstract class EventGenerator implements IEventGenerator {
       return;
     }
 
-    await AnthropicWebViewProvider.webviewView?.webview.postMessage({
+    await AnthropicWebView.webviewView?.webview.postMessage({
       type: "user-input",
       message: formattedResponse,
     });

@@ -1,10 +1,9 @@
 import * as vscode from "vscode";
-import { getWebviewContent } from "../webview/chat";
 import { formatText } from "../utils";
-import { FileUploader } from "../events/file-uploader";
+import { chartComponent } from "../webview/chat_html";
 
 let _view: vscode.WebviewView | undefined;
-export abstract class BaseWebViewProvider {
+export abstract class WebView {
   public static readonly viewId = "chatView";
   static webviewView: vscode.WebviewView | undefined;
   public currentWebView: vscode.WebviewView | undefined = _view;
@@ -21,7 +20,7 @@ export abstract class BaseWebViewProvider {
 
   resolveWebviewView(webviewView: vscode.WebviewView): void {
     _view = webviewView;
-    BaseWebViewProvider.webviewView = webviewView;
+    WebView.webviewView = webviewView;
     this.currentWebView = webviewView;
 
     const webviewOptions: vscode.WebviewOptions = {
@@ -37,30 +36,18 @@ export abstract class BaseWebViewProvider {
       return;
     }
     this.setWebviewHtml(this.currentWebView);
-    this.setupMessageHandler(
-      this.apiKey,
-      this.generativeAiModel,
-      this.currentWebView
-    );
+    this.setupMessageHandler(this.currentWebView);
   }
 
   private async setWebviewHtml(view: vscode.WebviewView): Promise<void> {
-    const codepatterns: FileUploader = new FileUploader(this._context);
-    const knowledgeBaseDocs: string[] = await codepatterns.getFiles();
-    view.webview.html = getWebviewContent(knowledgeBaseDocs);
+    view.webview.html = chartComponent();
   }
 
-  private setupMessageHandler(
-    apiKey: string,
-    modelName: string,
-    _view: vscode.WebviewView
-  ): void {
+  private setupMessageHandler(_view: vscode.WebviewView): void {
     try {
       _view.webview.onDidReceiveMessage(async (message) => {
         if (message.type === "user-input") {
           const response = await this.generateResponse(
-            apiKey,
-            modelName,
             formatText(message.message)
           );
           if (response) {
@@ -73,11 +60,7 @@ export abstract class BaseWebViewProvider {
     }
   }
 
-  abstract generateResponse(
-    apiKey?: string,
-    name?: string,
-    message?: string
-  ): Promise<string | undefined>;
+  abstract generateResponse(message?: string): Promise<string | undefined>;
 
   abstract sendResponse(
     response: string,

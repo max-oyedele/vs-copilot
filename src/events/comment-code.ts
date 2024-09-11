@@ -1,6 +1,6 @@
-import { formatText } from "../utils";
-import { EventGenerator } from "./event-generator";
 import * as vscode from "vscode";
+import { EventGenerator } from "../base/event-generator";
+import { formatText } from "../utils";
 
 export class CommentCode extends EventGenerator {
   selectedCode: string | undefined;

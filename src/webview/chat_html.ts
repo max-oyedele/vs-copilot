@@ -2,7 +2,7 @@ import { chatCss } from "./chat_css";
 import { chatJs } from "./chat_js";
 import * as path from "path";
 
-export const chartComponent = (docs: string[]) => `
+export const chartComponent = () => `
 <html lang="en">
 <head>
 <meta charset="UTF-8" />

@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { formatText, vscodeErrorMessage } from "../utils";
 import { APP_CONFIG, COMMON } from "../constant";
-import { AnthropicWebViewProvider } from "../providers/anthropic-web-view-provider";
+import { AnthropicWebView } from "./anthropic-web-view";
 
 /**
  * Manages chat functionality, including registering chat commands,
@@ -33,22 +33,19 @@ export class ChatManager {
         try {
           const selectedText = this.getActiveEditorText();
 
-          const anthropicWebViewProvider = new AnthropicWebViewProvider(
+          const anthropicWebView = new AnthropicWebView(
             this._context.extensionUri,
             this._context
           );
-          const response = await anthropicWebViewProvider.generateResponse(
+          const response = await anthropicWebView.generateResponse(
             selectedText
           );
 
-          anthropicWebViewProvider.sendResponse(
+          anthropicWebView.sendResponse(
             formatText(selectedText),
             COMMON.USER_INPUT
           );
-          anthropicWebViewProvider.sendResponse(
-            formatText(response),
-            COMMON.BOT
-          );
+          anthropicWebView.sendResponse(formatText(response), COMMON.BOT);
         } catch (error) {
           vscodeErrorMessage(
             "Failed to generate content. Please try again later."

@@ -1,10 +1,10 @@
-import { EventGenerator } from "./event-generator";
 import * as vscode from "vscode";
-import { FileUploader } from "./file-uploader";
 import * as path from "path";
+import { EventGenerator } from "../base/event-generator";
+import { FileUploader } from "./file-uploader";
 import { formatText } from "../utils";
 
-export class ReadFromKnowledgeBase extends EventGenerator {
+export class KnowledgeBase extends EventGenerator {
   constructor(action: string, context: vscode.ExtensionContext) {
     super(action, context);
   }

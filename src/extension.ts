@@ -1,17 +1,20 @@
 import * as vscode from "vscode";
 import { COMMON, MAIN_ACTIONS, USER_MESSAGE } from "./constant";
-import { CommentCode } from "./events/comment-code";
-import { GenerateCommitMessage } from "./events/generate-commit-message";
-import { ExplainCode } from "./events/explain-code";
-import { FixError } from "./events/fixError";
-import { GenerateCodeChart } from "./events/generate-code-chart";
-import { GenerateUnitTest } from "./events/generate-unit-test";
-import { InterviewQuestion } from "./events/interview-question";
-import { OptimizeCode } from "./events/optimize";
-import { FileUploader } from "./events/file-uploader";
-import { RefactorCode } from "./events/refactor";
-import { ReviewCode } from "./events/review";
-import { setupSubscribe } from "./services/setup-subscribe";
+import {
+  CommentCode,
+  ExplainCode,
+  FileUploader,
+  FixError,
+  GenerateCodeChart,
+  GenerateCommitMessage,
+  GenerateUnitTest,
+  InterviewQuestion,
+  KnowledgeBase,
+  OptimizeCode,
+  RefactorCode,
+  ReviewCode,
+} from "./events";
+import { AnthropicWebView, ChatManager, CodeActionProvider } from "./providers";
 
 export async function activate(context: vscode.ExtensionContext) {
   try {
@@ -104,3 +107,45 @@ export function deactivate(context: vscode.ExtensionContext) {
   //TODO once the application is rewritten in React, delete the pattern file on deactivate
   context.subscriptions.forEach((subscription) => subscription.dispose());
 }
+
+const setupSubscribe = (
+  context: vscode.ExtensionContext,
+  actionMap: Record<string, any>
+) => {
+  try {
+    const commandsRegistered: vscode.Disposable[] = Object.entries(
+      actionMap
+    ).map(([action, handler]) =>
+      vscode.commands.registerCommand(action, handler)
+    );
+
+    const chatManager = new ChatManager(context);
+    const chatCommandRegistered = chatManager.registerChatCommand();
+
+    const webviewProvider = new AnthropicWebView(context.extensionUri, context);
+    const webviewRegistered: vscode.Disposable =
+      vscode.window.registerWebviewViewProvider(
+        AnthropicWebView.viewId,
+        webviewProvider
+      );
+
+    const codeActionProvider = new CodeActionProvider();
+    const codeActionRegistered: vscode.Disposable =
+      vscode.languages.registerCodeActionsProvider(
+        { scheme: "file", language: "*" },
+        codeActionProvider
+      );
+
+    context.subscriptions.push(
+      ...commandsRegistered,
+      chatCommandRegistered,
+      webviewRegistered,
+      codeActionRegistered
+    );
+  } catch (error) {
+    vscode.window.showErrorMessage(
+      "An Error occured while registering event subscriptions"
+    );
+    console.log(error);
+  }
+};

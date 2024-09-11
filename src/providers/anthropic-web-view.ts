@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
-import { BaseWebViewProvider } from "./base-web-view-provider";
-import { APP_CONFIG, COMMON } from "../constant";
 import Anthropic from "@anthropic-ai/sdk";
+import { APP_CONFIG, COMMON } from "../constant";
+import { WebView } from "../base/web-view";
 
 type Role = "user" | "assistant";
 export interface IHistory {
@@ -9,7 +9,7 @@ export interface IHistory {
   content: string;
 }
 
-export class AnthropicWebViewProvider extends BaseWebViewProvider {
+export class AnthropicWebView extends WebView {
   chatHistory: IHistory[] = [];
   constructor(extensionUri: vscode.Uri, context: vscode.ExtensionContext) {
     const { anthropicApiKey, anthropicModel } = APP_CONFIG;

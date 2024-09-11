@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as ts from "typescript";
 
-export class CustomCompletionProvider implements vscode.CompletionItemProvider {
+export class CompletionItemProvider implements vscode.CompletionItemProvider {
   private tsServer: ts.LanguageService;
 
   constructor() {
@@ -26,13 +26,13 @@ export class CustomCompletionProvider implements vscode.CompletionItemProvider {
 
   async provideCompletionItems(
     document: vscode.TextDocument,
-    position: vscode.Position,
+    position: vscode.Position
   ): Promise<vscode.CompletionItem[]> {
     const file = ts.createSourceFile(
       document.fileName,
       document.getText(),
       ts.ScriptTarget.ES2020,
-      true,
+      true
     );
     const completions: vscode.CompletionItem[] = [];
 
@@ -40,7 +40,7 @@ export class CustomCompletionProvider implements vscode.CompletionItemProvider {
     const info = this.tsServer.getCompletionsAtPosition(
       file.fileName,
       offset,
-      {},
+      {}
     );
 
     if (info) {
@@ -81,7 +81,7 @@ export class CustomCompletionProvider implements vscode.CompletionItemProvider {
           undefined,
           undefined,
           undefined,
-          undefined,
+          undefined
         );
         if (details) {
           const documentation = ts.displayPartsToString(details.documentation);
@@ -89,7 +89,7 @@ export class CustomCompletionProvider implements vscode.CompletionItemProvider {
             ? details.tags.map((tag) => `@${tag.name} ${tag.text}`).join(` \n`)
             : "";
           completionItem.documentation = new vscode.MarkdownString(
-            `${documentation}\n\n${tags}`,
+            `${documentation}\n\n${tags}`
           );
         }
         completionItem.sortText = symbol.sortText;
