@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { formatText } from "../utils";
-import { chartComponent } from "../webview/chat_html";
+// import { chartComponent } from "../webview/chat_html";
 
 let _view: vscode.WebviewView | undefined;
 export abstract class WebView {
@@ -40,7 +40,7 @@ export abstract class WebView {
   }
 
   private async setWebviewHtml(view: vscode.WebviewView): Promise<void> {
-    view.webview.html = chartComponent();
+    // view.webview.html = chartComponent();
   }
 
   private setupMessageHandler(_view: vscode.WebviewView): void {
