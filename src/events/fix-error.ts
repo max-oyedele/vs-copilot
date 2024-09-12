@@ -20,10 +20,6 @@ export class FixError extends EventGenerator {
     return PROMPT.replace("{errorMessage}", this.error ?? "");
   }
 
-  formatResponse(comment: string): string {
-    return formatText(comment);
-  }
-
   createPrompt(selectedCode: string): string {
     const prompt = this.generatePrompt();
     const fullPrompt = `${prompt} \n ${selectedCode}`;

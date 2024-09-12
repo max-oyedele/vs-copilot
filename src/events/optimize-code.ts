@@ -22,10 +22,6 @@ export class OptimizeCode extends EventGenerator {
     return PROMPT;
   }
 
-  formatResponse(comment: string): string {
-    return formatText(comment);
-  }
-
   createPrompt(selectedCode: string): string {
     const prompt = this.generatePrompt();
     const fullPrompt = `${prompt} \n ${selectedCode}`;

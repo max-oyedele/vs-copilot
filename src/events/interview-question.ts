@@ -28,10 +28,6 @@ export class InterviewQuestion extends EventGenerator {
     return PROMPT;
   }
 
-  formatResponse(comment: string): string {
-    return formatText(comment);
-  }
-
   createPrompt(selectedCode: string): string {
     const prompt = this.generatePrompt(selectedCode);
     return prompt;

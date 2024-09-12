@@ -105,10 +105,6 @@ export class GenerateCommitMessage extends EventGenerator {
             ${await this.getStagedDifferenceSummary()}`;
   }
 
-  formatResponse(comment: string): string {
-    return formatText(comment);
-  }
-
   async createPrompt(selectedCode: string): Promise<string> {
     const prompt = await this.generatePrompt();
     const fullPrompt = `${prompt} \n ${selectedCode}`;
