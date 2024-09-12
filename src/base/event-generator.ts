@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 import { APP_CONFIG, COMMON } from "../constant";
 import { AnthropicWebView } from "../providers/anthropic-web-view";
@@ -98,21 +99,32 @@ export abstract class EventGenerator implements IEventGenerator {
     text: string
   ): Promise<string | Anthropic.Messages.Message | undefined> {
     try {
-      const model = new Anthropic({
-        apiKey: this.anthropicApiKey,
-      });
-
       let response;
-      response = await model.messages.create(
-        {
-          model: this.anthropicModel,
-          system: "",
-          max_tokens: 1024,
-          messages: [{ role: "user", content: text }],
-        },
-        { maxRetries: 10 }
-      );
-      response = response.content[0].text;
+
+      const client = new OpenAI({
+        apiKey:
+          "sk-pubngo-demo-GnUjJE73pFNo3QcTcQnPT3BlbkFJwqCblO7fMZezQaZKSYJY", // This is the default and can be omitted
+      });
+      response = await client.chat.completions.create({
+        messages: [{ role: "user", content: text }],
+        model: "gpt-3.5-turbo",
+      });
+      response = response.choices[0].message?.content;
+
+      // const model = new Anthropic({
+      //   apiKey: this.anthropicApiKey,
+      // });
+
+      // response = await model.messages.create(
+      //   {
+      //     model: this.anthropicModel,
+      //     system: "",
+      //     max_tokens: 1024,
+      //     messages: [{ role: "user", content: text }],
+      //   },
+      //   { maxRetries: 10 }
+      // );
+      // response = response.content[0].text;
 
       if (!response) {
         throw new Error(

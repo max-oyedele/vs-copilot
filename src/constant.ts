@@ -23,5 +23,5 @@ export enum COMMON {
 export const APP_CONFIG = {
   anthropicModel: "claude-3-sonnet-20240229",
   anthropicApiKey:
-    "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",
+    "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",
 };

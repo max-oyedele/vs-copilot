@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 export const chatJs = () => `
+const vscode = acquireVsCodeApi();
+
 const chatContainer = document.getElementById("chat-container");
 const chatMessages = document.getElementById("chat-messages");
 const chatInput = document.getElementById("chat-input");
@@ -67,8 +69,7 @@ function addChatMessage(sender, message) {
   addCodeWrappers();
 }
 
-function sendChatMessage(message) {
-  const vscode = acquireVsCodeApi();
+function sendChatMessage(message) {  
   vscode.postMessage({ type: "user-input", message: message });
 }
 
