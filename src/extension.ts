@@ -3,7 +3,7 @@ import ReacTreePanel from './panel';
 
 export function activate(extContext: vscode.ExtensionContext) {
   extContext.subscriptions.push(
-    vscode.commands.registerCommand('reacTree.start', () => {
+    vscode.commands.registerCommand('cdmbase-copilot.start', () => {
       ReacTreePanel.createOrShow(extContext);
     })
   );
@@ -13,7 +13,7 @@ export function activate(extContext: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Right
   );
 
-  item.command = 'reacTree.start';
+  item.command = 'cdmbase-copilot.start';
   item.tooltip = 'Activate ReacTree';
   item.text = '$(type-hierarchy) Start Tree';
   item.show();

@@ -145,7 +145,7 @@ const setupSubscribe = (
     );
 
     context.subscriptions.push(
-      vscode.commands.registerCommand('reacTree.start', () => {
+      vscode.commands.registerCommand('cdmbase-copilot.start', () => {
         ReacTreePanel.createOrShow(context);
       })
     );
