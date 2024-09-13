@@ -6,7 +6,7 @@ import Contact from "./widgets/Contact";
 import MedicineDelivery from "./widgets/MedicineDelivery";
 import CoBotAvatar from "./CoBotAvatar";
 
-const config = {
+const ChatbotConfig = {
   lang: "no",
   botName: "CoBot",
   customStyles: {
@@ -67,4 +67,4 @@ const config = {
   ],
 };
 
-export default config;
+export default ChatbotConfig;

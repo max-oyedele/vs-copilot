@@ -106,7 +106,7 @@ export class AnthropicWebView extends WebView {
         ]);
       }
 
-      return await this.currentWebView?.webview.postMessage({
+      return await WebView.webviewView!.webview.postMessage({
         type,
         message: response,
       });

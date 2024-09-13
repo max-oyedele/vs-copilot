@@ -1,7 +1,7 @@
 class ActionProvider {
-  private createClientMessage;
-  private createChatBotMessage;
-  private setState;
+  private createClientMessage: any;
+  private createChatBotMessage: any;
+  private setState: any;
 
   constructor(
     createChatBotMessage: any,

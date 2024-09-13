@@ -15,7 +15,6 @@ import {
   ReviewCode,
 } from "./events";
 import { AnthropicWebView, ChatManager, CodeActionProvider } from "./providers";
-import ReacTreePanel from './panel';
 
 export async function activate(context: vscode.ExtensionContext) {
   try {
@@ -142,12 +141,6 @@ const setupSubscribe = (
       chatCommandRegistered,
       webviewRegistered,
       codeActionRegistered
-    );
-
-    context.subscriptions.push(
-      vscode.commands.registerCommand('cdmbase-copilot.start', () => {
-        ReacTreePanel.createOrShow(context);
-      })
     );
   } catch (error) {
     vscode.window.showErrorMessage(

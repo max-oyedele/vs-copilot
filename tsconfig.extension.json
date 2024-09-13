@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ESNext",
+    "outDir": "out",
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["ext-src"],
+  "exclude": ["node_modules", ".vscode-test"]
+}

@@ -1,31 +1,26 @@
 {
   "compilerOptions": {
-    // "module": "ESNext",
-    "module": "CommonJS",
-    "target": "ESNext",
-    "outDir": "out",
-    "lib": ["dom", "dom.iterable", "ESNext"],
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-    "rootDir": "src",
-    "strict": true,
-    // "allowJs": true,
-    // "noEmit": true,
     "esModuleInterop": true,
-    // "moduleResolution": "Bundler",
-    // "resolveJsonModule": true,
-    // "isolatedModules": true,
-    "jsx": "preserve",
-    // "incremental": true,
-    // "plugins": [
-    //   {
-    //     "name": "next"
-    //   }
-    // ],
-    // "paths": {
-    //   "@/*": ["./src/*"]
-    // }
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".vscode-test", "src/webviews"]
+  "include": [
+    "src", "globals.d.ts"
+  ],
+  "exclude": ["node_modules"]
 }
