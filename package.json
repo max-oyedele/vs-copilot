@@ -244,7 +244,7 @@
     "node-fetch": "^3.3.2",
     "openai": "^4.32.1",
     "react": "^18",
-    "react-chatbot-kit": "2.2.2",
+    "react-chatbot-kit": "^2.2.2",
     "react-dom": "^18",
     "react-spinners": "0.14.1",
     "react-spreadsheet": "^0.9.4",

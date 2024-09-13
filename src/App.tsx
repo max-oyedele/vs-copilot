@@ -6,10 +6,11 @@ import ActionProvider from "./ActionProvider";
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="app">
       <div className="app-chatbot-container">
         <Chatbot
           config={ChatbotConfig}
+          headerText=' '
           messageParser={MessageParser}
           actionProvider={ActionProvider}
         />

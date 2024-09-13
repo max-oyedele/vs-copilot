@@ -8,7 +8,7 @@ import CoBotAvatar from "./CoBotAvatar";
 
 const ChatbotConfig = {
   lang: "no",
-  botName: "CoBot",
+  botName: "CDMBase Copilot",
   customStyles: {
     botMessageBox: {
       backgroundColor: "#04668a",
@@ -19,13 +19,9 @@ const ChatbotConfig = {
   },
   initialMessages: [
     createChatBotMessage(
-      `Hi, I'm here to provide you with latest COVID 19 data to keep you safe!`,
-      {}
-    ),
-    createChatBotMessage(
-      "Here's a quick overview of what I can help you with. You can also type in.",
+      `Hi, I'm here to help you work on codebase!`,
       {
-        // withAvatar: false,
+        // withAvatar: true,
         delay: 400,
         widget: "overview",
       }

@@ -71,9 +71,7 @@ export abstract class WebView {
 				<title>React App</title>
 				<link rel="stylesheet" type="text/css" href="${styleUri}">
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-				<base href="${vscode.Uri.joinPath(this._extensionUri, "build").with({
-          scheme: "vscode-resource",
-        })}/">
+				<base href="${view.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "build"))}">
 			</head>
 
 			<body>
