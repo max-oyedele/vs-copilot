@@ -16,7 +16,7 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       "How can I help you? Below are some possible options.",
       {
-        widget: "overview",
+        widget: "options",
         loading: true,
         terminateLoading: true,
         ...options,

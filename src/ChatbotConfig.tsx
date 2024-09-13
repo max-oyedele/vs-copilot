@@ -1,5 +1,5 @@
 import { createChatBotMessage } from "react-chatbot-kit";
-import Overview from "./widgets/Overview";
+import Options from "./widgets/Options";
 import GlobalStatistics from "./widgets/GlobalStatistics";
 import LocalStatistics from "./widgets/LocalStatistics";
 import Contact from "./widgets/Contact";
@@ -23,7 +23,7 @@ const ChatbotConfig = {
       {
         // withAvatar: true,
         delay: 400,
-        widget: "overview",
+        widget: "options",
       }
     ),
   ],
@@ -31,8 +31,8 @@ const ChatbotConfig = {
   customComponents: { botAvatar: (props: any) => <CoBotAvatar {...props} /> },
   widgets: [
     {
-      widgetName: "overview",
-      widgetFunc: (props: any) => <Overview {...props} />,
+      widgetName: "options",
+      widgetFunc: (props: any) => <Options title="Options" {...props} />,
       mapStateToProps: ["messages"],
       props: {},
     },
