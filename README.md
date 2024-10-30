@@ -1,4 +1,4 @@
-# cdmbase-copilot
+# vscode-copilot
 
 AI-powered code assistant using Copilotkit and OpenAI(/Anthropic) to help user generate complex code and get direction of code base.
 This is a Visual Studio Code extension.
