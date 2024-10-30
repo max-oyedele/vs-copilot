@@ -1,6 +1,6 @@
 {
-  "name": "cdmbase-copilot",
-  "displayName": "CDMBase team's AI Coding Assistant",
+  "name": "vs-copilot",
+  "displayName": "AI Coding Assistant",
   "author": {
     "name": "Maxim Dymchenko",
     "email": "eastsea1020n@gmail.com"
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/max-oyedele/cdmbase-copilot"
+    "url": "https://github.com/max-oyedele/vs-copilot"
   },
   "gallery": {
-    "icon": "cdmbase-copilot.png"
+    "icon": "vs-copilot.png"
   },
   "categories": [
     "Other"
@@ -28,7 +28,7 @@
   "main": "./out/ext-src/extension.js",
   "contributes": {
     "views": {
-      "cdmbase-copilot-view-container": [
+      "vs-copilot-view-container": [
         {
           "type": "webview",
           "id": "chatView",
@@ -40,56 +40,56 @@
       "editor/context": [
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.commentCode",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.commentCode",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.reviewCode",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.reviewCode",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.codeRefactor",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.codeRefactor",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.codeOptimize",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.codeOptimize",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.explain",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.explain",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.sendChatMessage",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.sendChatMessage",
+          "group": "vs-copilot"
         },
         {
-          "command": "cdmbase-copilot.savePattern",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.savePattern",
+          "group": "vs-copilot"
         },
         {
-          "command": "cdmbase-copilot.generateCommitMessage",
-          "group": "cdmbase-copilot"
-        },
-        {
-          "when": "editorHasSelection",
-          "command": "cdmbase-copilot.interviewMe",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.generateCommitMessage",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.generateUnitTest",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.interviewMe",
+          "group": "vs-copilot"
         },
         {
           "when": "editorHasSelection",
-          "command": "cdmbase-copilot.generateCodeChart",
-          "group": "cdmbase-copilot"
+          "command": "vs-copilot.generateUnitTest",
+          "group": "vs-copilot"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "vs-copilot.generateCodeChart",
+          "group": "vs-copilot"
         }
       ]
     },
@@ -100,62 +100,62 @@
         "category": "React"
       },
       {
-        "command": "cdmbase-copilot.commentCode",
-        "title": "CDMBase Copilot. Add comment to selected code."
+        "command": "vs-copilot.commentCode",
+        "title": "vs Copilot. Add comment to selected code."
       },
       {
-        "command": "cdmbase-copilot.reviewCode",
-        "title": "CDMBase Copilot. Review these selected code."
+        "command": "vs-copilot.reviewCode",
+        "title": "vs Copilot. Review these selected code."
       },
       {
-        "command": "cdmbase-copilot.codeRefactor",
-        "title": "CDMBase Copilot. Refactor these selected code."
+        "command": "vs-copilot.codeRefactor",
+        "title": "vs Copilot. Refactor these selected code."
       },
       {
-        "command": "cdmbase-copilot.codeOptimize",
-        "title": "CDMBase Copilot. Optimize these selected code."
+        "command": "vs-copilot.codeOptimize",
+        "title": "vs Copilot. Optimize these selected code."
       },
       {
-        "command": "cdmbase-copilot.sendChatMessage",
-        "title": "Send to CDMBase Copilot"
+        "command": "vs-copilot.sendChatMessage",
+        "title": "Send to vs Copilot"
       },
       {
-        "command": "cdmbase-copilot.explain",
-        "title": "CDMBase Copilot. Explain this code"
+        "command": "vs-copilot.explain",
+        "title": "vs Copilot. Explain this code"
       },
       {
-        "command": "cdmbase-copilot.savePattern",
-        "title": "CDMBase Copilot. Save this code pattern"
+        "command": "vs-copilot.savePattern",
+        "title": "vs Copilot. Save this code pattern"
       },
       {
-        "command": "cdmbase-copilot.generateCommitMessage",
-        "title": "CDMBase Copilot. Generate commit message"
+        "command": "vs-copilot.generateCommitMessage",
+        "title": "vs Copilot. Generate commit message"
       },
       {
-        "command": "cdmbase-copilot.interviewMe",
-        "title": "CDMBase Copilot. Interview Me."
+        "command": "vs-copilot.interviewMe",
+        "title": "vs Copilot. Interview Me."
       },
       {
-        "command": "cdmbase-copilot.generateUnitTest",
-        "title": "CDMBase Copilot. Generate Unit Test."
+        "command": "vs-copilot.generateUnitTest",
+        "title": "vs Copilot. Generate Unit Test."
       },
       {
-        "command": "cdmbase-copilot.generateCodeChart",
-        "title": "CDMBase Copilot. Generate Code Chart."
+        "command": "vs-copilot.generateCodeChart",
+        "title": "vs Copilot. Generate Code Chart."
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "cdmbase-copilot-view-container",
-          "title": "CDMBase Copilot",
+          "id": "vs-copilot-view-container",
+          "title": "vs Copilot",
           "icon": "$(chat-editor-label-icon)"
         }
       ]
     },
     "configuration": [
       {
-        "title": "CDMBase Copilot",
+        "title": "vs Copilot",
         "properties": {
           "anthropic.model": {
             "type": [

@@ -18,7 +18,7 @@ export class ChatManager {
 
   registerChatCommand() {
     return vscode.commands.registerCommand(
-      "cdmbase-copilot.sendChatMessage",
+      "vs-copilot.sendChatMessage",
       async () => {
         const { anthropicApiKey, anthropicModel } = APP_CONFIG;
         if (!anthropicApiKey || !anthropicModel) {

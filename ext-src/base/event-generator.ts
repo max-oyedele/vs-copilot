@@ -102,8 +102,7 @@ export abstract class EventGenerator implements IEventGenerator {
       let response;
 
       const client = new OpenAI({
-        apiKey:
-          "sk-pubngo-demo-GnUjJE73pFNo3QcTcQnPT3BlbkFJwqCblO7fMZezQaZKSYJY", // This is the default and can be omitted
+        apiKey: "your-api-key", // This is the default and can be omitted
       });
       response = await client.chat.completions.create({
         messages: [{ role: "user", content: text }],

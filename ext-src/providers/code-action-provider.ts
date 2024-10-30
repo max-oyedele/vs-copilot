@@ -24,7 +24,7 @@ export class CodeActionProvider implements vscode.CodeActionProvider {
       // Seems the text is too much `${errorMessage} \n ${windowContent}`
       // Write a javascript function that retrieve the errored code instead of passing the whole code
       action.command = {
-        command: "cdmbase-copilot.codeFix",
+        command: "vs-copilot.codeFix",
         title: "Max fix this error",
         arguments: [`${errorMessage} \n ${windowContent}`],
       };

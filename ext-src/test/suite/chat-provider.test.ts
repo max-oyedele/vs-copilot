@@ -12,7 +12,7 @@
 //     const webview = {
 //       options: {
 //         enableScripts: true,
-//         localResourceRoots: [vscode.Uri.file("../../../../cdmbase-copilot")],
+//         localResourceRoots: [vscode.Uri.file("../../../../vs-copilot")],
 //       },
 //       webview: {
 //         html: getWebviewContent([]),
@@ -51,7 +51,7 @@
 //     let extensionContext: vscode.ExtensionContext;
 //     extensionContext = createExtensionContextStub();
 //     const provider = new ChatViewProvider(
-//       vscode.Uri.file("../../../../cdmbase-copilot"),
+//       vscode.Uri.file("../../../../vs-copilot"),
 //       extensionContext
 //     );
 //     provider.resolveWebviewView(webview as any);
@@ -95,7 +95,7 @@
 //           options: {
 //             enableScripts: true,
 //             localResourceRoots: [
-//               vscode.Uri.file("../../../../cdmbase-copilot"),
+//               vscode.Uri.file("../../../../vs-copilot"),
 //             ],
 //           },
 //           webview: {
@@ -138,7 +138,7 @@
 //         let extensionContext: vscode.ExtensionContext;
 //         extensionContext = createExtensionContextStub();
 //         const provider = new ChatViewProvider(
-//           vscode.Uri.file("../../../../cdmbase-copilot"),
+//           vscode.Uri.file("../../../../vs-copilot"),
 //           extensionContext
 //         );
 //         const sendResponsePromise = new Promise<void>((resolve) => {

@@ -4,7 +4,7 @@ import CoBotAvatar from "./CoBotAvatar";
 
 const ChatbotConfig = {
   lang: "no",
-  botName: "CDMBase Copilot",
+  botName: "VS Copilot",
   customStyles: {
     botMessageBox: {
       backgroundColor: "#04668a",
