@@ -1,6 +1,5 @@
 export const APP_CONFIG = {
-  openaiApiKey:
-    "sk-pubngo-demo-GnUjJE73pFNo3QcTcQnPT3BlbkFJwqCblO7fMZezQaZKSYJY",
+  openaiApiKey: "your-api-key",
   openaiModel: "gpt-4o",
 };
 

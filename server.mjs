@@ -10,8 +10,7 @@ import {
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey:
-    "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",
+  apiKey: "your-api-key",
 });
 const serviceAdapter = new OpenAIAdapter({ openai });
 
