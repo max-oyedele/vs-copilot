@@ -204,7 +204,7 @@
   },
   "scripts": {
     "vscode:prepublish": "node ./src/build-non-split.js && tsc -p tsconfig.extension.json",
-    "build": "node ./src/build-non-split.js && tsc -p tsconfig.extension.json",
+    "build": "react-scripts build && tsc -p tsconfig.extension.json",
     "start": "react-scripts start",
     "test": "vscode-test",
     "eject": "react-scripts eject"

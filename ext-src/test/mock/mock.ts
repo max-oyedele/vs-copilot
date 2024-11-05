@@ -1,4 +1,4 @@
-import { IHistory } from "../../providers/anthropic-web-view";
+import { IHistory } from "../../providers/openai-web-view";
 
 export class MockGoogleGenerativeAi {
   constructor(apiKey: string) {}

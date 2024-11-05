@@ -6,7 +6,6 @@ import {
   useCopilotContext,
   useCopilotChat,
 } from "@copilotkit/react-core";
-import Editor, { loader } from "@monaco-editor/react";
 
 const enum AppState {
   Ask,
@@ -135,25 +134,6 @@ export default function Home() {
 
   return (
     <div>
-      {viewCode && (
-        <div id="monaco-editor">
-          <Editor
-            height="90vh"
-            defaultLanguage="javascript"
-            value={code}
-            onChange={(value: any, event: any) => {
-              setCode(value);
-            }}
-          />
-        </div>
-      )}
-      {!viewCode && (
-        <div className="h-[90vh]">
-          <Suspense fallback={<div>Loading...</div>}>
-            {/* <LazyComponent /> */}
-          </Suspense>
-        </div>
-      )}
       <div className="p-2">
         <input
           type="file"
