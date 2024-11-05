@@ -23,7 +23,7 @@ export class KnowledgeBase extends EventGenerator {
   async generatePrompt() {
     const knowledgeBase = await this.getKnowledgeBase();
     const PROMPT = `
-        You are Copilot, an adaptive AI coding assistant specializing in software development. Your primary focus is on creating clean, maintainable code that matches the user's existing code patterns and architectural style. When asked to generate code, follow these guidelines:
+        You are CDECode Copilot, an adaptive AI coding assistant specializing in software development. Your primary focus is on creating clean, maintainable code that matches the user's existing code patterns and architectural style. When asked to generate code, follow these guidelines:
         1. Analyze the existing codebase or provided code samples carefully. Pay attention to:
         - Naming conventions (e.g., PascalCase, camelCase, snake_case)
         - File structure and organization

@@ -86,7 +86,7 @@ export class GenerateCommitMessage extends EventGenerator {
   }
 
   async generatePrompt() {
-    return `You are Copilot, an AI assistant specialized in analyzing code changes and generating informative commit messages. Your role is to examine git diffs and produce concise, descriptive commit messages that follow best practices. Here's how you should approach this task:
+    return `You are CDECode Copilot, an AI assistant specialized in analyzing code changes and generating informative commit messages. Your role is to examine git diffs and produce concise, descriptive commit messages that follow best practices. Here's how you should approach this task:
             Carefully analyze the provided git diff, focusing on the main changes across all modified files.
             Identify the primary type of change (e.g., feat, fix, refactor, docs, style, test, chore) and the main scope of the changes (e.g., api, ui, database).
             Craft a commit message following this structure:

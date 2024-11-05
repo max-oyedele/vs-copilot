@@ -1,8 +1,6 @@
 import * as vscode from "vscode";
 import OpenAI from "openai";
-import Anthropic from "@anthropic-ai/sdk";
-import { APP_CONFIG, COMMON } from "../constant";
-import { AnthropicWebView } from "../providers/anthropic-web-view";
+import { COMMON } from "../constant";
 import { formatText } from "../utils";
 
 interface IEventGenerator {
@@ -13,8 +11,7 @@ interface IEventGenerator {
 export abstract class EventGenerator implements IEventGenerator {
   context: vscode.ExtensionContext;
   protected error?: string;
-  private readonly anthropicApiKey: string;
-  private readonly anthropicModel: string;
+
   // Todo Need to refactor. Only one instance of a model can be created at a time. Therefore no need to retrieve all model information, only retrieve the required model within the application
   constructor(
     private readonly action: string,
@@ -23,10 +20,6 @@ export abstract class EventGenerator implements IEventGenerator {
   ) {
     this.context = _context;
     this.error = errorMessage;
-
-    const { anthropicApiKey, anthropicModel } = APP_CONFIG;
-    this.anthropicApiKey = anthropicApiKey;
-    this.anthropicModel = anthropicModel;
   }
 
   abstract createPrompt(text?: string): any;
@@ -58,9 +51,7 @@ export abstract class EventGenerator implements IEventGenerator {
     return formatText(comment);
   }
 
-  async generateResponse(
-    errorMessage?: string
-  ): Promise<string | Anthropic.Messages.Message | undefined> {
+  async generateResponse(errorMessage?: string): Promise<string | undefined> {
     this.showInformationMessage();
     const selectedCode = this.getSelectedWindowArea();
     if (!errorMessage && !selectedCode) {
@@ -97,18 +88,9 @@ export abstract class EventGenerator implements IEventGenerator {
 
   protected async generateModelResponse(
     text: string
-  ): Promise<string | Anthropic.Messages.Message | undefined> {
+  ): Promise<string | undefined> {
     try {
       let response;
-
-      const client = new OpenAI({
-        apiKey: "your-api-key", // This is the default and can be omitted
-      });
-      response = await client.chat.completions.create({
-        messages: [{ role: "user", content: text }],
-        model: "gpt-3.5-turbo",
-      });
-      response = response.choices[0].message?.content;
 
       // const model = new Anthropic({
       //   apiKey: this.anthropicApiKey,
@@ -156,9 +138,9 @@ export abstract class EventGenerator implements IEventGenerator {
       return;
     }
 
-    await AnthropicWebView.webviewView?.webview.postMessage({
-      type: "user-input",
-      message: formattedResponse,
-    });
+    // await AnthropicWebView.webviewView?.webview.postMessage({
+    //   type: "user-input",
+    //   message: formattedResponse,
+    // });
   }
 }

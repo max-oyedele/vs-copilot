@@ -1,95 +1,32 @@
 import * as vscode from "vscode";
 import { COMMON, MAIN_ACTIONS, USER_MESSAGE } from "./constant";
 import {
-  CommentCode,
-  ExplainCode,
   FileUploader,
-  FixError,
-  GenerateCodeChart,
   GenerateCommitMessage,
   GenerateUnitTest,
-  InterviewQuestion,
   KnowledgeBase,
-  OptimizeCode,
-  RefactorCode,
-  ReviewCode,
 } from "./events";
-import { AnthropicWebView, ChatManager, CodeActionProvider } from "./providers";
+import { OpenAIWebView, CodeActionProvider } from "./providers";
 
 export async function activate(context: vscode.ExtensionContext) {
   try {
     context.workspaceState.update(COMMON.CHAT_HISTORY, []);
 
-    const {
-      codeChart,
-      comment,
-      commitMessage,
-      explain,
-      fix,
-      interviewMe,
-      optimize,
-      pattern,
-      refactor,
-      review,
-      unitTest,
-    } = MAIN_ACTIONS;
+    const { commitMessage, pattern, unitTest } = MAIN_ACTIONS;
 
-    const generateCodeChart = new GenerateCodeChart(
-      `${USER_MESSAGE} creates the code chart...`,
-      context
-    );
-    const commentCode = new CommentCode(
-      `${USER_MESSAGE} generates the code comments...`,
-      context
-    );
     const generateCommitMessage = new GenerateCommitMessage(
       `${USER_MESSAGE} generates a commit message...`,
       context
     );
-    const explainCode = new ExplainCode(
-      `${USER_MESSAGE} explains the code...`,
-      context
-    );
-    const fixError = (errorMessage: string) =>
-      new FixError(
-        `${USER_MESSAGE} finds a solution to the error...`,
-        context,
-        errorMessage
-      );
-    const interviewQuestion = new InterviewQuestion(
-      `${USER_MESSAGE} generates interview questions...`,
-      context
-    );
-    const optimizeCode = new OptimizeCode(
-      `${USER_MESSAGE} optimizes the code...`,
-      context
-    );
     const codePattern = new FileUploader(context);
-    const refactorCode = new RefactorCode(
-      `${USER_MESSAGE} refactors the code...`,
-      context
-    );
-    const reviewCode = new ReviewCode(
-      `${USER_MESSAGE} reviews the code...`,
-      context
-    );
     const generateUnitTest = new GenerateUnitTest(
       `${USER_MESSAGE} generates unit tests...`,
       context
     );
 
     const actionMap = {
-      [codeChart]: () => generateCodeChart.execute(),
-      [comment]: () => commentCode.execute(),
       [commitMessage]: () => generateCommitMessage.execute("hello"),
-      [explain]: () => explainCode.execute(),
-      [fix]: (errorMessage: string) =>
-        fixError(errorMessage).execute(errorMessage),
-      [interviewMe]: () => interviewQuestion.execute(),
-      [optimize]: () => optimizeCode.execute(),
       [pattern]: () => codePattern.uploadFileHandler(),
-      [refactor]: () => refactorCode.execute(),
-      [review]: () => reviewCode.execute(),
       [unitTest]: () => generateUnitTest.execute(),
     };
 
@@ -119,13 +56,10 @@ const setupSubscribe = (
       vscode.commands.registerCommand(action, handler)
     );
 
-    const chatManager = new ChatManager(context);
-    const chatCommandRegistered = chatManager.registerChatCommand();
-
-    const webviewProvider = new AnthropicWebView(context.extensionUri, context);
+    const webviewProvider = new OpenAIWebView(context.extensionUri, context);
     const webviewRegistered: vscode.Disposable =
       vscode.window.registerWebviewViewProvider(
-        AnthropicWebView.viewId,
+        OpenAIWebView.viewId,
         webviewProvider
       );
 
@@ -138,7 +72,6 @@ const setupSubscribe = (
 
     context.subscriptions.push(
       ...commandsRegistered,
-      chatCommandRegistered,
       webviewRegistered,
       codeActionRegistered
     );

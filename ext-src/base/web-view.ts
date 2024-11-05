@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
+import * as fs from "fs";
 import { formatText } from "../utils";
-// import { chartComponent } from "../webview/chat_html";
 
 export abstract class WebView {
   public static readonly viewId = "chatView";
@@ -10,12 +10,17 @@ export abstract class WebView {
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
-    protected readonly apiKey: string,
-    protected readonly generativeAiModel: string,
     context: vscode.ExtensionContext
   ) {
     this._context = context;
   }
+
+  abstract generateResponse(message?: string): Promise<string | undefined>;
+
+  abstract sendResponse(
+    response: string,
+    currentChat?: string
+  ): Promise<boolean | undefined>;
 
   resolveWebviewView(webviewView: vscode.WebviewView): void {
     WebView.webviewView = webviewView;
@@ -26,21 +31,29 @@ export abstract class WebView {
     };
     webviewView.webview.options = webviewOptions;
 
-    if (!this.apiKey) {
-      vscode.window.showErrorMessage(
-        "API key not configured. Check your settings."
-      );
-      return;
-    }
-    this.setWebviewHtml(webviewView);
+    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+
     this.setupMessageHandler(webviewView);
   }
 
-  private async setWebviewHtml(view: vscode.WebviewView): Promise<void> {
-    // view.webview.html = chartComponent();
-    view.webview.html = this._getHtmlForWebview(view.webview);
+  private setupMessageHandler(_view: vscode.WebviewView): void {
+    try {
+      _view.webview.onDidReceiveMessage(async (message) => {
+        console.log("user message=", message);
+        if (message.type === "user-input") {
+          const response = await this.generateResponse(
+            formatText(message.message)
+          );
+          if (response) {
+            this.sendResponse(formatText(response), "bot");
+          }
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
-  
+
   private _getHtmlForWebview(view: vscode.Webview) {
     const manifest = require(path.join(
       this._extensionUri.path,
@@ -63,49 +76,30 @@ export abstract class WebView {
     const nonce = getNonce();
 
     return `<!DOCTYPE html>
-			<html lang="en">
-			<head>
-				<meta charset="utf-8">
-				<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-				<meta name="theme-color" content="#000000">
-				<title>React App</title>
-				<link rel="stylesheet" type="text/css" href="${styleUri}">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-				<base href="${view.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, "build"))}">
-			</head>
+      <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <meta name="theme-color" content="#000000">
+        <title>React App</title>
+        <link rel="stylesheet" type="text/css" href="${styleUri}">
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${nonce}';style-src vscode-resource: 'unsafe-inline' http: https: data:;">-->
+        <base href="${view.asWebviewUri(
+          vscode.Uri.joinPath(this._extensionUri, "build")
+        )}">
+      </head>
 
-			<body>
-				<noscript>You need to enable JavaScript to run this app.</noscript>
-				<div id="root"></div>
-				
-				<script nonce="${nonce}" src="${scriptUri}"></script>
-			</body>
-			</html>`;
+      <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+
+        <script nonce="${nonce}" src="${scriptUri}"></script>
+        <script>
+          const vscode = acquireVsCodeApi();
+        </script>
+      </body>
+      </html>`;
   }
-  
-  private setupMessageHandler(_view: vscode.WebviewView): void {
-    try {
-      _view.webview.onDidReceiveMessage(async (message) => {
-        if (message.type === "user-input") {
-          const response = await this.generateResponse(
-            formatText(message.message)
-          );
-          if (response) {
-            this.sendResponse(formatText(response), "bot");
-          }
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  abstract generateResponse(message?: string): Promise<string | undefined>;
-
-  abstract sendResponse(
-    response: string,
-    currentChat?: string
-  ): Promise<boolean | undefined>;
 }
 
 function getNonce() {
